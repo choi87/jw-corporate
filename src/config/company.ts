@@ -9,8 +9,8 @@ export const company = {
   businessRegistrationNumber: '',
   corporateRegistrationNumber: '',
   established: '',
-  address: '',
-  phone: '',
+  address: '서울특별시 강서구 강서로 454, 401-J4호',
+  phone: '+827045170142',
   email: '',
   domain: '',
 } as const;
