@@ -12,8 +12,10 @@ const areas = [
 ---
 <BaseLayout title="HOME">
   <section class="relative overflow-hidden bg-navy-950 py-24 text-white md:py-36">
-    <div aria-hidden="true" class="pointer-events-none absolute -right-40 top-0 h-[520px] w-[520px] rounded-full border border-white/10"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute right-[-80px] top-24 h-[390px] w-[390px] rounded-full border border-white/10"></div>
+    <video autoplay muted loop playsinline preload="metadata" aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full object-cover object-[65%_center] motion-reduce:hidden">
+      <source src="/videos/jw-office.mp4" type="video/mp4" />
+    </video>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-r from-navy-950/95 via-navy-950/75 to-navy-950/20"></div>
     <div class="container-jw relative">
       <p class="mb-7 text-xs font-bold tracking-[.25em] text-sky-300">JW CORPORATE WEBSITE</p>
       <h1 class="max-w-4xl text-4xl font-extrabold leading-[1.22] tracking-[-.055em] md:text-6xl">Technology for<br /><span class="text-sky-300">practical progress.</span></h1>
