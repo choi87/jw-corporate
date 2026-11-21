@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+const blocks = [["환경","서비스에 필요한 인프라와 저장 공간을 적정 규모로 운영하고, 사용하지 않는 자원을 줄이는 방향을 검토합니다."],["이용자와 사회","개인정보 보호, 서비스 접근성, 이용자가 이해하기 쉬운 안내를 제품 기획의 기준으로 삼습니다."],["책임 있는 운영","프로젝트 진행 상태를 명확하게 안내하고, 제휴 및 서비스 운영 과정에서 책임 소재를 분명히 합니다."]];
+---
+<BaseLayout title="지속가능경영">
+  <PageHero eyebrow="JW" title="지속가능경영" subtitle="서비스를 설계하고 운영할 때 고려하는 원칙을 소개합니다." />
+  <section aria-label="지속가능경영 안내" class="container-jw py-14 md:py-20">
+    <div class="grid gap-5 md:grid-cols-3">
+      {blocks.map(([heading, body]) => (
+        <article class="card-panel p-7 md:p-8">
+          <h2 class="text-xl font-bold text-navy-950">{heading}</h2>
+          <p class="mt-4 break-keep text-sm leading-8 text-muted">{body}</p>
+        </article>
+      ))}
+    </div>
+    
+  </section>
+</BaseLayout>
