@@ -77,7 +77,6 @@ export const projects: Project[] = [
     name: '브랜드 투자·유통',
     description: '성장 가능성이 있는 브랜드의 투자와 협업을 검토하고, 상품의 판매 채널을 넓히는 프로젝트입니다.',
     businessArea: 'E-Commerce',
-    status: 'completed',
     image: '',
     externalLink: '',
     isPublic: true,
