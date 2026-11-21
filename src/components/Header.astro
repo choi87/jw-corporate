@@ -1,37 +1,35 @@
 ---
 import { company } from '../config/company';
-import { languages, localPath, sections, translations, type Locale } from '../data/locales';
+import { languages, languagePath, pageLocale, sections } from '../data/locales';
 
-interface Props { locale?: Locale }
-const { locale = 'ko' } = Astro.props;
-const section = Astro.url.pathname.split('/').filter(Boolean).at(-1) ?? '';
-const current = sections.find((item) => item === section) ?? '';
-const labels = locale === 'ko' ? ["기업정보","지속가능경영","투자정보","인재채용","프로젝트","사업영역","찾아오시는 길","개인정보처리방침","메뉴"] : translations[locale];
-const brand = locale === 'ko' ? company.legalName : 'JW Co.,Ltd.';
+const { code: locale, path, href, t } = pageLocale(Astro.url.pathname);
+const current = path.split('/')[1];
+const labels = ['기업정보', '지속가능경영', '투자정보', '인재채용', '프로젝트', '사업영역', '찾아오시는 길', '개인정보처리방침', '메뉴'].map(t);
+const brand = t(company.legalName);
 const nav = sections.slice(0, 5).map((item, index) => ({ item, label: labels[index] }));
 ---
 <header class="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur-md">
   <div class="container-jw flex min-h-18 items-center justify-between gap-2 sm:gap-6">
-    <a href={localPath(locale)} class="flex min-w-0 items-center gap-2 text-navy-950 sm:gap-3">
+    <a href={href("/")} class="flex min-w-0 items-center gap-2 text-navy-950 sm:gap-3">
       <img src="/favicon.svg" width="40" height="40" alt="" class="block h-8 w-8 shrink-0 sm:h-10 sm:w-10" />
       <span class="truncate text-[0.94rem] font-extrabold tracking-tight" translate="no">{brand}</span>
     </a>
     <div class="flex shrink-0 items-center gap-1 sm:gap-3">
       <nav aria-label={labels[8]} class="hidden items-center gap-4 lg:flex">
-        {nav.map(({ item, label }) => <a href={localPath(locale,item)} aria-current={item === current ? 'page' : undefined} class="whitespace-nowrap text-sm font-bold text-muted hover:text-blue-700">{label}</a>)}
+        {nav.map(({ item, label }) => <a href={href(`/${item}/`)} aria-current={item === current ? 'page' : undefined} class="whitespace-nowrap text-sm font-bold text-muted hover:text-blue-700">{label}</a>)}
       </nav>
       <details class="relative z-10">
         <summary aria-label="Language / 언어 선택" class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full text-navy-950 hover:bg-surface marker:hidden [&::-webkit-details-marker]:hidden">
           <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.55" aria-hidden="true"><circle cx="12" cy="12" r="9.25"/><ellipse cx="12" cy="12" rx="4.1" ry="9.25"/><path d="M3 9h18M3 15h18"/></svg>
         </summary>
         <div class="absolute right-0 top-full mt-2 w-40 rounded-xl border border-line bg-white p-1.5 shadow-xl">
-          {languages.map(({ code, tag, label }) => <a href={localPath(code,current)} lang={tag} hreflang={tag} aria-current={code === locale ? 'true' : undefined} class="block rounded-lg px-3 py-2 text-sm font-semibold hover:bg-surface aria-[current=true]:bg-blue-50 aria-[current=true]:text-blue-700">{label}</a>)}
+          {languages.map(({ code, tag, label }) => <a href={languagePath(code, path === "/404/" ? "/" : path)} lang={tag} hreflang={tag} aria-current={code === locale ? 'true' : undefined} class="block rounded-lg px-3 py-2 text-sm font-semibold hover:bg-surface aria-[current=true]:bg-blue-50 aria-[current=true]:text-blue-700">{label}</a>)}
         </div>
       </details>
       <details class="relative lg:hidden">
         <summary aria-label={labels[8]} class="flex min-h-11 cursor-pointer list-none items-center gap-1 whitespace-nowrap rounded-md border border-line px-2 text-xs font-semibold marker:hidden [&::-webkit-details-marker]:hidden"><span class="hidden min-[380px]:inline">{labels[8]}</span><span aria-hidden="true">☰</span></summary>
         <nav aria-label={labels[8]} class="absolute right-0 top-full mt-2 w-52 rounded-xl border border-line bg-white p-3 shadow-xl">
-          {nav.map(({ item, label }) => <a href={localPath(locale,item)} aria-current={item === current ? 'page' : undefined} class="block rounded-md px-3 py-2.5 text-sm font-semibold hover:bg-surface">{label}</a>)}
+          {nav.map(({ item, label }) => <a href={href(`/${item}/`)} aria-current={item === current ? 'page' : undefined} class="block rounded-md px-3 py-2.5 text-sm font-semibold hover:bg-surface">{label}</a>)}
         </nav>
       </details>
     </div>

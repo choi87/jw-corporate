@@ -2,45 +2,47 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { company, contact } from '../config/company';
+import { pageLocale } from '../data/locales';
+const { t } = pageLocale(Astro.url.pathname);
 
 const buildingAddress = company.address.split(',')[0].trim();
 const destination = encodeURIComponent(buildingAddress);
-const mapEmbedUrl = `https://maps.google.com/maps?q=${destination}&hl=ko&z=16&output=embed`;
+const mapEmbedUrl = `https://maps.google.com/maps?q=${destination}&hl=${pageLocale(Astro.url.pathname).code}&z=16&output=embed`;
 const naverMapUrl = `https://map.naver.com/p/search/${destination}`;
 const kakaoMapUrl = `https://map.kakao.com/link/search/${destination}`;
 ---
-<BaseLayout title="찾아오시는 길">
-  <PageHero eyebrow="LOCATION" title="찾아오시는 길" subtitle="주식회사 제이더블유 방문 안내" />
+<BaseLayout title={t("찾아오시는 길")}>
+  <PageHero eyebrow={t("LOCATION")} title={t("찾아오시는 길")} subtitle={t("주식회사 제이더블유 방문 안내")} />
   <section class="container-jw py-12 md:py-18" aria-labelledby="office-location">
-    <h2 id="office-location" class="section-title mb-6 text-navy-950">{company.legalName}</h2>
+    <h2 id="office-location" class="section-title mb-6 text-navy-950">{t(company.legalName)}</h2>
     <div class="overflow-hidden rounded-xl border border-line bg-surface">
       <iframe
         src={mapEmbedUrl}
-        title="주식회사 제이더블유 위치 지도"
+        title={t("주식회사 제이더블유 위치 지도")}
         class="block h-80 w-full border-0 md:h-112"
         loading="lazy"
         referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen
       ></iframe>
       <div class="flex flex-wrap gap-3 border-t border-line bg-white p-4 md:p-5">
-        <a href={naverMapUrl} target="_blank" rel="noopener noreferrer" class="rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800">네이버지도에서 보기</a>
-        <a href={kakaoMapUrl} target="_blank" rel="noopener noreferrer" class="rounded-md border border-line px-4 py-2 text-sm font-semibold text-navy-950 hover:bg-surface">카카오맵에서 보기</a>
+        <a href={naverMapUrl} target="_blank" rel="noopener noreferrer" class="rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800">{t("네이버지도에서 보기")}</a>
+        <a href={kakaoMapUrl} target="_blank" rel="noopener noreferrer" class="rounded-md border border-line px-4 py-2 text-sm font-semibold text-navy-950 hover:bg-surface">{t("카카오맵에서 보기")}</a>
       </div>
     </div>
     <dl class="mt-5 grid gap-5 rounded-xl border border-line p-5 md:grid-cols-[2fr_1fr] md:p-7">
       <div>
-        <dt class="mb-1 text-sm font-semibold text-muted">주소</dt>
-        <dd><address class="font-semibold not-italic text-navy-950">{company.address}</address></dd>
+        <dt class="mb-1 text-sm font-semibold text-muted">{t("주소")}</dt>
+        <dd><address class="font-semibold not-italic text-navy-950">{t(company.address)}</address></dd>
       </div>
       {contact.hasPhone && (
         <div>
-          <dt class="mb-1 text-sm font-semibold text-muted">대표전화</dt>
+          <dt class="mb-1 text-sm font-semibold text-muted">{t("대표전화")}</dt>
           <dd><a href={`tel:${company.phone}`} class="font-semibold text-blue-700 hover:underline">{company.phone}</a></dd>
         </div>
       )}
       {contact.hasEmail && (
         <div>
-          <dt class="mb-1 text-sm font-semibold text-muted">이메일</dt>
+          <dt class="mb-1 text-sm font-semibold text-muted">{t("이메일")}</dt>
           <dd><a href={`mailto:${company.email}`} class="break-all font-semibold text-blue-700 hover:underline">{company.email}</a></dd>
         </div>
       )}

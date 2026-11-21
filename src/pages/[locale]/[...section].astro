@@ -1,78 +1,31 @@
 ---
-import '../../styles/global.css';
-import Header from '../../components/Header.astro';
-import { company } from '../../config/company';
-import { languages, localPath, sections, translations } from '../../data/locales';
+import Home from '../index.astro';
+import Company from '../company.astro';
+import Sustainability from '../sustainability.astro';
+import Investors from '../investors.astro';
+import Careers from '../careers.astro';
+import Projects from '../projects.astro';
+import ProjectDetail from '../projects/[id].astro';
+import Business from '../business.astro';
+import Contact from '../contact.astro';
+import Privacy from '../privacy.astro';
+import { languages, sections } from '../../data/locales';
+import { publicProjects, type Project } from '../../data/projects';
 
 export function getStaticPaths() {
-  return languages.flatMap(({ code, tag }) => code === 'ko' ? [] :
-    [undefined, ...sections].map((section) => ({ params: { locale: code, section }, props: { code, tag, section } }))
-  );
+  const pages: { section: typeof sections[number] | undefined; project?: Project }[] =
+    [undefined, ...sections].map((section) => ({ section }));
+  return languages.filter(({ code }) => code !== 'ko').flatMap(({ code }) => [
+    ...pages.map((page) => ({ params: { locale: code, section: page.section }, props: page })),
+    ...publicProjects.map((project) => ({
+      params: { locale: code, section: 'projects/' + project.id },
+      props: { section: 'projects' as const, project },
+    })),
+  ]);
 }
-const { code, tag, section } = Astro.props;
-const copy = translations[code];
-const heading = section ? copy[sections.indexOf(section)] : 'JW Co.,Ltd.';
-const summaries = { company: copy[14], sustainability: copy[15], investors: copy[16], careers: copy[17], projects: copy[18], business: copy[19], contact: '', privacy: copy[20] };
-const site = import.meta.env.PUBLIC_SITE_URL || 'https://jwcorp.net';
-const address = '401-J4, 454 Gangseo-ro, Gangseo-gu, Seoul, Republic of Korea';
-const mapQuery = encodeURIComponent(company.address.split(',')[0]);
+
+const pages = { company: Company, sustainability: Sustainability, investors: Investors, careers: Careers, projects: Projects, business: Business, contact: Contact, privacy: Privacy };
+const { section, project } = Astro.props;
+const Page = section ? pages[section] : Home;
 ---
-<!doctype html>
-<html lang={tag}>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={section ? summaries[section] || address : copy[13]} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="canonical" href={new URL(localPath(code, section), site)} />
-    {languages.map(({ code: alternate, tag: language }) => <link rel="alternate" hreflang={language} href={new URL(localPath(alternate, section), site)} />)}
-    <title>{section ? heading + ' | JW Co.,Ltd.' : heading}</title>
-  </head>
-  <body class="min-h-screen antialiased">
-    <Header locale={code} />
-    <main id="main" class="break-words">
-      <section class:list={['relative overflow-hidden bg-navy-950 text-white', section ? 'py-16 md:py-24' : 'py-24 md:py-36']}>
-        {!section && <video autoplay muted loop playsinline preload="metadata" aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full object-cover motion-reduce:hidden"><source src="/videos/jw-office-clean.mp4" type="video/mp4" /></video>}
-        {!section && <div class="absolute inset-0 bg-navy-950/80" aria-hidden="true"></div>}
-        <div class="container-jw relative">
-          <h1 class="text-4xl font-extrabold tracking-tight md:text-6xl">{section ? heading : 'Technology for practical progress.'}</h1>
-          {!section && <p class="mt-6 max-w-xl leading-8 text-slate-200">{copy[13]}</p>}
-          {!section && <a href={localPath(code,'business')} class="mt-8 inline-block rounded-lg bg-white px-5 py-3 font-bold text-navy-950">{copy[12]} →</a>}
-        </div>
-      </section>
-      <section class="container-jw py-12 md:py-20">
-        {!section && <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[...sections.slice(0, 6), 'contact' as const].map((item) => <a href={localPath(code,item)} class="card-panel block p-6 hover:border-blue-700"><h2 class="text-lg font-bold text-navy-950">{copy[sections.indexOf(item)]} →</h2><p class="mt-3 leading-7 text-muted">{summaries[item] || address}</p></a>)}
-        </div>}
-        {section && section !== 'contact' && <p class="max-w-3xl leading-8 text-muted">{summaries[section]}</p>}
-        {section === 'projects' && <ul class="mt-8 grid gap-4 sm:grid-cols-2">{copy[21].split('|').map((name) => <li class="card-panel p-5 font-semibold">{name}</li>)}</ul>}
-        {section === 'company' && <p class="mt-6 font-semibold">JW Co.,Ltd. · <time datetime="2023-05-02">2023-05-02</time></p>}
-        {section === 'investors' && <a href={localPath(code,'contact')} class="mt-6 inline-block font-semibold text-blue-700 hover:underline">{copy[6]} →</a>}
-        {section === 'contact' && (
-          <div>
-            <iframe src={`https://maps.google.com/maps?q=${mapQuery}&z=16&output=embed`} title={copy[22]} loading="lazy" class="block h-80 w-full rounded-xl border border-line"></iframe>
-            <a href={`https://map.naver.com/p/search/${mapQuery}`} class="mt-4 inline-block font-semibold text-blue-700 hover:underline">{copy[22]} →</a>
-            <dl class="mt-6 grid gap-4 sm:grid-cols-3">
-              <div><dt class="font-bold">{copy[9]}</dt><dd>{address}</dd></div>
-              <div><dt class="font-bold">{copy[10]}</dt><dd><a href={`tel:${company.phone}`}>{company.phone}</a></dd></div>
-              <div><dt class="font-bold">{copy[11]}</dt><dd><a href="mailto:contact@jwcorp.net">contact@jwcorp.net</a></dd></div>
-            </dl>
-          </div>
-        )}
-      </section>
-    </main>
-    <footer class="border-t border-line bg-white py-7">
-      <div class="container-jw flex flex-wrap justify-between gap-5 text-sm">
-        <div>
-          <div class="flex flex-wrap gap-3 font-semibold"><a href={localPath(code,'privacy')}>{copy[7]}</a><a href={localPath(code,'contact')}>{copy[6]}</a></div>
-          <address class="mt-3 not-italic text-muted">{address}</address>
-          <p class="mt-1 text-xs text-muted">© {new Date().getFullYear()} JW Co.,Ltd. All rights reserved.</p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <a href={`tel:${company.phone}`}>{copy[10]} <span class="font-semibold text-blue-700">{company.phone}</span></a>
-          <a href="mailto:contact@jwcorp.net">{copy[11]} <span class="font-semibold text-blue-700">contact@jwcorp.net</span></a>
-        </div>
-      </div>
-    </footer>
-  </body>
-</html>
+{project ? <ProjectDetail project={project} /> : <Page />}

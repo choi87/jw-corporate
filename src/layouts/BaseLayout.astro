@@ -3,30 +3,34 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { company } from '../config/company';
+import { languagePath, languages, pageLocale } from '../data/locales';
+const { tag, og, path, t } = pageLocale(Astro.url.pathname);
+const brand = t(company.legalName);
 interface Props { title: string; description?: string; }
 const { title, description = company.description } = Astro.props;
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://jw-corporate.pages.dev';
 const canonical = new URL(Astro.url.pathname, siteUrl).toString();
 ---
 <!doctype html>
-<html lang="ko">
+<html lang={tag}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#09162b" />
-    <meta name="description" content={description} />
+    <meta name="description" content={t(description)} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ko_KR" />
-    <meta property="og:site_name" content={company.legalName} />
-    <meta property="og:title" content={`${title} | ${company.legalName}`} />
-    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={og} />
+    <meta property="og:site_name" content={brand} />
+    <meta property="og:title" content={`${t(title)} | ${brand}`} />
+    <meta property="og:description" content={t(description)} />
     <meta property="og:url" content={canonical} />
     <link rel="canonical" href={canonical} />
+    {path !== "/404/" && languages.map(({ code, tag: language }) => <link rel="alternate" hreflang={language} href={new URL(languagePath(code, path), siteUrl).toString()} />)}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title} | {company.legalName}</title>
   </head>
   <body class="min-h-screen antialiased">
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:bg-white focus:p-3">본문 바로가기</a>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:bg-white focus:p-3">{t("본문 바로가기")}</a>
     <Header />
     <main id="main"><slot /></main>
     <Footer />

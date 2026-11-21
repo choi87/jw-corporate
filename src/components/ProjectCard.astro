@@ -1,6 +1,8 @@
 ---
 import type { Project } from '../data/projects';
 import { statusLabel } from '../data/projects';
+import { pageLocale } from '../data/locales';
+const { t, href } = pageLocale(Astro.url.pathname);
 interface Props { project: Project; headingLevel?: 'h2' | 'h3'; }
 const { project, headingLevel: Heading = 'h2' } = Astro.props;
 ---
@@ -8,11 +10,11 @@ const { project, headingLevel: Heading = 'h2' } = Astro.props;
   {project.image && <img src={project.image} alt="" class="aspect-[5/3] w-full bg-navy-950 object-cover" loading="lazy" />}
   <div class="flex flex-1 flex-col p-7 md:p-8">
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-      <span class="text-xs font-bold tracking-wide text-muted">{project.businessArea}</span>
-      {project.status && <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">{statusLabel[project.status]}</span>}
+      <span class="text-xs font-bold tracking-wide text-muted">{t(project.businessArea)}</span>
+      {project.status && <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">{t(statusLabel[project.status])}</span>}
     </div>
-    <Heading class="text-xl font-bold tracking-tight text-navy-950"><a href={`/projects/${project.id}/`} class="after:absolute after:inset-0 hover:text-blue-700">{project.name}<span aria-hidden="true" class="ml-2 text-blue-700">→</span></a></Heading>
-    <p class="mt-4 flex-1 break-keep text-sm leading-8 text-muted">{project.description}</p>
-    {project.externalLink && project.status === 'released' && <a href={project.externalLink} target="_blank" rel="noopener noreferrer" class="relative z-10 mt-7 text-sm font-semibold text-blue-700 underline-offset-4 hover:underline">프로젝트 사이트 방문 <span aria-hidden="true">↗</span></a>}
+    <Heading class="text-xl font-bold tracking-tight text-navy-950"><a href={href(`/projects/${project.id}/`)} class="after:absolute after:inset-0 hover:text-blue-700">{t(project.name)}<span aria-hidden="true" class="ml-2 text-blue-700">→</span></a></Heading>
+    <p class="mt-4 flex-1 break-keep text-sm leading-8 text-muted">{t(project.description)}</p>
+    {project.externalLink && project.status === 'released' && <a href={project.externalLink} target="_blank" rel="noopener noreferrer" class="relative z-10 mt-7 text-sm font-semibold text-blue-700 underline-offset-4 hover:underline">{t("프로젝트 사이트 방문")} <span aria-hidden="true">↗</span></a>}
   </div>
 </article>

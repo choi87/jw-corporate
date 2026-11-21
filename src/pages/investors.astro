@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
-const blocks = [["사업 포트폴리오","소프트웨어, AI 자동화, 전자상거래 및 디지털 콘텐츠 분야의 사업을 추진합니다."],["투자 및 사업 제휴","투자 제안이나 사업 협업 문의는 문의 페이지에서 안내를 확인할 수 있습니다."]];
+import { pageLocale } from '../data/locales';
+const { t, href } = pageLocale(Astro.url.pathname);
+const blocks = [[t("사업 포트폴리오"),t("소프트웨어, AI 자동화, 전자상거래 및 디지털 콘텐츠 분야의 사업을 추진합니다.")],[t("투자 및 사업 제휴"),t("투자 제안이나 사업 협업 문의는 문의 페이지에서 안내를 확인할 수 있습니다.")]];
 ---
-<BaseLayout title="투자정보">
-  <PageHero eyebrow="JW" title="투자정보" subtitle="주식회사 제이더블유의 사업 분야와 투자 문의 경로를 안내합니다." />
-  <section aria-label="투자정보 안내" class="container-jw py-14 md:py-20">
+<BaseLayout title={t("투자정보")}>
+  <PageHero eyebrow="JW" title={t("투자정보")} subtitle={t("주식회사 제이더블유의 사업 분야와 투자 문의 경로를 안내합니다.")} />
+  <section aria-label={t("투자정보 안내")} class="container-jw py-14 md:py-20">
     <div class="grid gap-5 md:grid-cols-2">
       {blocks.map(([heading, body]) => (
         <article class="card-panel p-7 md:p-8">
@@ -14,6 +16,6 @@ const blocks = [["사업 포트폴리오","소프트웨어, AI 자동화, 전자
         </article>
       ))}
     </div>
-    <div class="mt-8 flex flex-wrap gap-6 text-sm font-bold text-blue-700"><a href="/projects/" class="hover:underline">프로젝트 보기 →</a><a href="/contact/" class="hover:underline">투자·제휴 문의 →</a></div>
+    <div class="mt-8 flex flex-wrap gap-6 text-sm font-bold text-blue-700"><a href={href("/projects/")} class="hover:underline">{t("프로젝트 보기 →")}</a><a href={href("/contact/")} class="hover:underline">{t("투자·제휴 문의 →")}</a></div>
   </section>
 </BaseLayout>

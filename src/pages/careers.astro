@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
-const blocks = [["함께 만드는 서비스","사용자의 문제를 구체적으로 정의하고, 소프트웨어와 콘텐츠로 해결책을 실험합니다."],["채용 공고","현재 공개된 채용 공고가 없습니다. 채용이 진행되면 이 페이지에 모집 분야와 지원 방법을 안내합니다."]];
+import { pageLocale } from '../data/locales';
+const { t } = pageLocale(Astro.url.pathname);
+const blocks = [[t("함께 만드는 서비스"),t("사용자의 문제를 구체적으로 정의하고, 소프트웨어와 콘텐츠로 해결책을 실험합니다.")],[t("채용 공고"),t("현재 공개된 채용 공고가 없습니다. 채용이 진행되면 이 페이지에 모집 분야와 지원 방법을 안내합니다.")]];
 ---
-<BaseLayout title="인재채용">
-  <PageHero eyebrow="JW" title="인재채용" subtitle="제이더블유의 채용 소식과 함께 일하는 방향을 소개합니다." />
-  <section aria-label="인재채용 안내" class="container-jw py-14 md:py-20">
+<BaseLayout title={t("인재채용")}>
+  <PageHero eyebrow="JW" title={t("인재채용")} subtitle={t("제이더블유의 채용 소식과 함께 일하는 방향을 소개합니다.")} />
+  <section aria-label={t("인재채용 안내")} class="container-jw py-14 md:py-20">
     <div class="grid gap-5 md:grid-cols-2">
       {blocks.map(([heading, body]) => (
         <article class="card-panel p-7 md:p-8">
