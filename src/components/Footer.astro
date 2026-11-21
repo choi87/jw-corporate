@@ -9,9 +9,11 @@ import { company, contact } from '../config/company';
         <a href="/contact/" class="border-l border-line pl-3 text-navy-950 hover:underline">찾아오시는 길</a>
       </nav>
       <address class="mt-3 text-sm not-italic text-muted">{company.address}</address>
-      <p class="mt-1 text-sm text-muted">이메일 <a href="mailto:contact@jwcorp.net" class="font-semibold text-blue-700 hover:underline">contact@jwcorp.net</a></p>
       <p class="mt-1 text-xs text-muted">© {new Date().getFullYear()} {company.legalName}. All rights reserved.</p>
     </div>
-    {contact.hasPhone && <a href={`tel:${company.phone}`} class="text-sm font-semibold text-navy-950 hover:underline">대표전화 <span class="text-blue-700">{company.phone}</span></a>}
+    <div class="flex flex-col items-start gap-1.5">
+      {contact.hasPhone && <a href={`tel:${company.phone}`} class="text-sm font-semibold text-navy-950 hover:underline">대표전화 <span class="text-blue-700">{company.phone}</span></a>}
+        <p class="mt-1 text-sm text-muted">이메일 <a href="mailto:contact@jwcorp.net" class="font-semibold text-blue-700 hover:underline">contact@jwcorp.net</a></p>
+    </div>
   </div>
 </footer>
