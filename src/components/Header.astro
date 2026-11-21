@@ -8,6 +8,14 @@ const nav = [
   { href: '/projects/', label: '프로젝트' },
 ];
 const path = Astro.url.pathname;
+const languages = [
+  { code: 'ko', label: '한국어' },
+  { code: 'en', label: 'English' },
+  { code: 'zh-CN', label: '中文（简体）' },
+  { code: 'zh-TW', label: '中文（繁體）' },
+  { code: 'th', label: 'ไทย' },
+  { code: 'ja', label: '日本語' },
+];
 ---
 <header class="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur-md">
   <div class="container-jw flex min-h-18 items-center justify-between gap-6">
@@ -15,14 +23,109 @@ const path = Astro.url.pathname;
       <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-navy-950 text-lg font-black tracking-tight text-white">JW</span>
       <span class="text-[0.94rem] font-extrabold tracking-tight">{company.legalName}</span>
     </a>
-    <nav aria-label="주 메뉴" class="hidden items-center gap-7 md:flex">
+    <div class="flex items-center gap-3 md:gap-4">
+    <nav aria-label="주 메뉴" class="hidden items-center gap-4 lg:flex xl:gap-7">
       {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined} class:list={['whitespace-nowrap text-sm font-bold transition hover:text-blue-700', path === item.href ? 'text-blue-700' : 'text-muted']}>{item.label}</a>)}
     </nav>
-    <details class="group relative md:hidden">
+        <details id="site-languages" class="notranslate group relative" translate="no">
+      <summary aria-label="언어 선택 / Choose language" class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full text-navy-950 transition hover:bg-surface focus-visible:outline-2 focus-visible:outline-blue-700 marker:hidden [&::-webkit-details-marker]:hidden">
+        <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.55" aria-hidden="true">
+          <circle cx="12" cy="12" r="9.25"/><ellipse cx="12" cy="12" rx="4.1" ry="9.25"/><path d="M3 9h18M3 15h18"/>
+        </svg>
+      </summary>
+      <div class="absolute right-0 top-full z-50 mt-2 w-40 rounded-xl border border-line bg-white p-1.5 shadow-xl before:absolute before:-top-1.5 before:right-4 before:h-3 before:w-3 before:rotate-45 before:border-l before:border-t before:border-line before:bg-white">
+        {languages.map(({ code, label }) => (
+          <button type="button" data-site-language={code} lang={code} aria-current={code === 'ko' ? 'true' : undefined} class="relative block w-full rounded-lg px-3 py-2 text-left text-sm font-semibold text-navy-950 hover:bg-surface focus-visible:outline-2 focus-visible:outline-blue-700 aria-[current=true]:bg-blue-50 aria-[current=true]:text-blue-700">{label}</button>
+        ))}
+        <div id="site-translation-provider" class="px-2 empty:hidden"></div>
+      </div>
+    </details>
+    <details class="group relative lg:hidden">
       <summary class="cursor-pointer list-none rounded-md border border-line px-3 py-2 text-sm font-semibold marker:hidden">메뉴 <span aria-hidden="true">☰</span></summary>
       <nav aria-label="모바일 주 메뉴" class="absolute right-0 top-12 w-48 rounded-xl border border-line bg-white p-3 shadow-xl">
         {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined} class="block rounded-md px-3 py-2.5 text-sm font-semibold hover:bg-surface">{item.label}</a>)}
       </nav>
     </details>
+    </div>
   </div>
 </header>
+
+<script is:inline>
+  (() => {
+    const menu = document.getElementById('site-languages');
+    const provider = document.getElementById('site-translation-provider');
+    const buttons = Array.from(menu.querySelectorAll('[data-site-language]'));
+    const supported = new Set(buttons.map((button) => button.dataset.siteLanguage));
+    const preferenceKey = 'jw-site-language';
+    let currentLanguage = 'ko';
+    try {
+      const savedLanguage = localStorage.getItem(preferenceKey);
+      if (supported.has(savedLanguage)) currentLanguage = savedLanguage;
+    } catch {}
+
+    function updateSelection() {
+      buttons.forEach((button) => {
+        if (button.dataset.siteLanguage === currentLanguage) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
+    }
+
+    function setTranslationCookie(language) {
+      const value = language === 'ko'
+        ? 'googtrans=; Max-Age=0'
+        : 'googtrans=/ko/' + language + '; Max-Age=31536000';
+      document.cookie = value + '; Path=/; SameSite=Lax';
+    }
+
+    function loadTranslation() {
+      setTranslationCookie(currentLanguage);
+      window.jwInitializeTranslation = () => {
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'ko',
+          includedLanguages: 'en,zh-CN,zh-TW,th,ja',
+          autoDisplay: false,
+          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, provider.id);
+      };
+      const script = document.createElement('script');
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=jwInitializeTranslation';
+      script.async = true;
+      script.addEventListener('error', () => {
+        const link = document.createElement('a');
+        const url = new URL('https://translate.google.com/translate');
+        url.search = new URLSearchParams({ sl: 'ko', tl: currentLanguage, u: location.href }).toString();
+        link.href = url.href;
+        link.className = 'block rounded-lg px-1 py-2 text-xs font-semibold text-blue-700 underline';
+        link.textContent = 'Open translated page';
+        provider.replaceChildren(link);
+        menu.open = true;
+      });
+      document.head.append(script);
+    }
+
+    menu.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-site-language]');
+      if (!button) return;
+      const language = button.dataset.siteLanguage;
+      if (language === currentLanguage) {
+        menu.open = false;
+        return;
+      }
+      try { localStorage.setItem(preferenceKey, language); } catch {}
+      setTranslationCookie(language);
+      location.reload();
+    });
+    document.addEventListener('click', (event) => {
+      if (!menu.contains(event.target)) menu.open = false;
+    });
+    menu.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        menu.open = false;
+        menu.querySelector('summary').focus();
+      }
+    });
+
+    updateSelection();
+    if (currentLanguage !== 'ko') loadTranslation();
+  })();
+</script>
