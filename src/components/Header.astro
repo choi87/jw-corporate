@@ -1,11 +1,11 @@
 ---
 import { company } from '../config/company';
 const nav = [
-  { href: '/', label: 'HOME' },
-  { href: '/company/', label: 'COMPANY' },
-  { href: '/business/', label: 'BUSINESS' },
-  { href: '/projects/', label: 'PROJECTS' },
-  { href: '/contact/', label: 'CONTACT' },
+  { href: '/company/', label: '기업정보' },
+  { href: '/sustainability/', label: '지속가능경영' },
+  { href: '/investors/', label: '투자정보' },
+  { href: '/careers/', label: '인재채용' },
+  { href: '/projects/', label: '프로젝트' },
 ];
 const path = Astro.url.pathname;
 ---
@@ -16,7 +16,7 @@ const path = Astro.url.pathname;
       <span class="text-[0.94rem] font-extrabold tracking-tight">{company.legalName}</span>
     </a>
     <nav aria-label="주 메뉴" class="hidden items-center gap-7 md:flex">
-      {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined} class:list={['text-xs font-bold tracking-widest transition hover:text-blue-700', path === item.href ? 'text-blue-700' : 'text-muted']}>{item.label}</a>)}
+      {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined} class:list={['whitespace-nowrap text-sm font-bold transition hover:text-blue-700', path === item.href ? 'text-blue-700' : 'text-muted']}>{item.label}</a>)}
     </nav>
     <details class="group relative md:hidden">
       <summary class="cursor-pointer list-none rounded-md border border-line px-3 py-2 text-sm font-semibold marker:hidden">메뉴 <span aria-hidden="true">☰</span></summary>
