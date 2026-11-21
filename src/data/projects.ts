@@ -5,7 +5,7 @@ export type Project = {
   name: string;
   description: string;
   businessArea: string;
-  status: ProjectStatus;
+  status?: ProjectStatus;
   image: string;
   externalLink: string;
   isPublic: boolean;
@@ -88,6 +88,15 @@ export const projects: Project[] = [
     description: '디지털 영상의 기획과 제작부터 채널별 배포까지 연계하는 프로젝트입니다.',
     businessArea: 'Digital Platforms',
     status: 'planning',
+    image: '',
+    externalLink: '',
+    isPublic: true,
+  },
+  {
+    id: 'ai-reply-scheduler',
+    name: 'AI 자동응답·예약전송 프로그램',
+    description: 'AI로 반복 문의에 자동으로 응답하고, 지정한 날짜와 시간에 안내 메시지를 보내도록 예약하는 프로그램입니다.',
+    businessArea: 'AI & Automation',
     image: '',
     externalLink: '',
     isPublic: true,
