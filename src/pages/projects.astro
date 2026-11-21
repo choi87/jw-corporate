@@ -3,11 +3,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { publicProjects } from '../data/projects';
+
+const areas = [
+  { id: 'software', title: '소프트웨어', businessArea: 'Software & Applications' },
+  { id: 'automation', title: 'AI·자동화', businessArea: 'AI & Automation' },
+  { id: 'commerce', title: '전자상거래·유통', businessArea: 'E-Commerce' },
+  { id: 'platforms', title: '콘텐츠·플랫폼', businessArea: 'Digital Platforms' },
+];
+const sections = areas.map((area) => ({
+  ...area,
+  projects: publicProjects.filter((project) => project.businessArea === area.businessArea),
+})).filter((area) => area.projects.length > 0);
 ---
 <BaseLayout title="PROJECTS">
-  <PageHero eyebrow="OUR PROJECTS" title="프로젝트" subtitle="프로젝트의 공개 범위와 진행 상태를 구분해 소개합니다. 출시되지 않은 서비스는 현재 제공 중인 상품이나 서비스가 아닙니다." />
-  <section class="container-jw py-16 md:py-24">
-    {publicProjects.length ? <div class="grid gap-5 md:grid-cols-2">{publicProjects.map((project) => <ProjectCard project={project} />)}</div> : <p class="text-muted">공개 가능한 프로젝트를 준비 중입니다.</p>}
-    <p class="mt-8 text-sm text-muted">※ 기획·개발 단계 프로젝트의 일정 및 내용은 변경될 수 있습니다.</p>
-  </section>
+  <PageHero eyebrow="OUR PROJECTS" title="프로젝트" subtitle="주식회사 제이더블유가 기획하고 개발하는 프로젝트를 사업 분야별로 소개합니다." />
+  <div class="border-b border-line bg-surface">
+    <nav aria-label="프로젝트 분야" class="container-jw flex flex-wrap gap-x-7 gap-y-3 py-5">
+      {sections.map((area) => (
+        <a href={`#${area.id}`} class="text-sm font-bold text-navy-950 underline-offset-4 hover:text-blue-700 hover:underline">{area.title}</a>
+      ))}
+    </nav>
+  </div>
+  <div class="container-jw space-y-14 py-14 md:space-y-20 md:py-20">
+    {sections.map((area) => (
+      <section id={area.id} aria-labelledby={`${area.id}-heading`} class="scroll-mt-28">
+        <h2 id={`${area.id}-heading`} class="section-title mb-6 border-b border-line pb-4 text-navy-950">{area.title}</h2>
+        <div class="grid gap-5 md:grid-cols-2">
+          {area.projects.map((project) => <ProjectCard project={project} headingLevel="h3" />)}
+        </div>
+      </section>
+    ))}
+    <p class="text-sm text-muted">기획·개발 중인 프로젝트의 일정과 내용은 변경될 수 있습니다.</p>
+  </div>
 </BaseLayout>
