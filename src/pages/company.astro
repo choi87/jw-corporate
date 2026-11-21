@@ -24,10 +24,22 @@ const facts = [
   <section aria-labelledby="history-heading" class="container-jw py-16 md:py-24">
     <div class="grid gap-9 md:grid-cols-[1fr_2fr]">
       <div><h2 id="history-heading" class="section-title text-navy-950">회사 연혁</h2><p class="mt-4 break-keep text-sm leading-7 text-muted">제이더블유의 주요 사업 분야가 확장되어 온 과정을 소개합니다.</p></div>
-      <ol class="list-none space-y-8 border-l border-line pl-6 md:pl-9">
-        <li><time datetime="2023-05-02" class="mb-2 block text-sm font-semibold text-blue-700">{openedOn}</time><h3 class="text-lg font-bold text-navy-950">개업 및 전자상거래 사업 기반 마련</h3><p class="mt-2 break-keep leading-7 text-muted">온라인 상품 유통과 판매 운영을 중심으로 사업 기반을 마련했습니다.</p></li>
-        <li><time datetime="2026-11" class="mb-2 block text-sm font-semibold text-blue-700">2026년 11월 기준</time><h3 class="text-lg font-bold text-navy-950">유통 업무의 소프트웨어화</h3><p class="mt-2 break-keep leading-7 text-muted">판매 운영에 필요한 상품 정보 조회와 재고 관리, 해외 리셀 시세 비교 기능을 프로그램으로 개발했습니다.</p></li>
-        <li><time datetime="2026-11" class="mb-2 block text-sm font-semibold text-blue-700">2026년 11월 기준</time><h3 class="text-lg font-bold text-navy-950">AI 자동화와 디지털 콘텐츠로 확장</h3><p class="mt-2 break-keep leading-7 text-muted">영상 제작 및 게시 자동화, AI 자동응답과 예약전송 프로그램을 개발하고, 교육용 시뮬레이션과 디지털 콘텐츠로 프로젝트 범위를 넓혔습니다.</p></li>
+      <ol class="grid list-none gap-4">
+        <li class="card-panel border-l-4 border-l-blue-700 p-6">
+          <time datetime="2023-05-02" class="block text-sm font-bold text-blue-700">{openedOn}</time>
+          <h3 class="mt-2 text-xl font-bold text-navy-950">개업 및 전자상거래 사업 기반 마련</h3>
+          <p class="mt-3 break-keep leading-7 text-muted">온라인 상품 유통과 판매 운영을 중심으로 사업을 시작했습니다.</p>
+        </li>
+        <li class="card-panel border-l-4 border-l-blue-700 p-6">
+          <p class="text-sm font-bold text-blue-700">유통 운영 고도화</p>
+          <h3 class="mt-2 text-xl font-bold text-navy-950">유통 업무의 소프트웨어화</h3>
+          <p class="mt-3 break-keep leading-7 text-muted">상품 정보 조회와 재고 관리, 해외 리셀 시세 비교 기능을 프로그램으로 개발했습니다.</p>
+        </li>
+        <li class="card-panel border-l-4 border-l-blue-700 p-6">
+          <p class="text-sm font-bold text-blue-700">디지털 사업 확장</p>
+          <h3 class="mt-2 text-xl font-bold text-navy-950">AI 자동화와 디지털 콘텐츠로 확장</h3>
+          <p class="mt-3 break-keep leading-7 text-muted">영상 제작·게시 자동화, AI 자동응답·예약전송 프로그램을 개발하고 교육용 시뮬레이션과 디지털 콘텐츠로 프로젝트 범위를 넓혔습니다.</p>
+        </li>
       </ol>
     </div>
   </section>
