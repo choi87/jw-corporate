@@ -1,9 +1,16 @@
 ---
-interface Props { eyebrow: string; title: string; subtitle: string; illustration?: string; }
-const { eyebrow, title, subtitle, illustration } = Astro.props;
+interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  illustration?: string;
+  backLink?: { href: string; label: string };
+}
+const { eyebrow, title, subtitle, illustration, backLink } = Astro.props;
 ---
 <section class:list={[
-  "border-b border-line py-17 md:py-24",
+  "border-b border-line md:py-24",
+  backLink ? "py-14" : "py-17",
   illustration
     ? "relative isolate overflow-hidden bg-linear-to-r from-[#fbf8fe] to-[#efe5f9]"
     : "bg-surface",
@@ -19,13 +26,18 @@ const { eyebrow, title, subtitle, illustration } = Astro.props;
     />
   )}
   <div class="container-jw">
-    <p class="eyebrow mb-5">{eyebrow}</p>
+    {backLink && (
+      <a href={backLink.href} class="text-sm font-semibold text-violet-800 underline-offset-4 hover:underline">{backLink.label}</a>
+    )}
+    <p class={backLink ? "mt-9 text-sm font-semibold text-violet-800" : "eyebrow mb-5"}>{eyebrow}</p>
     <h1 class:list={[
-      "max-w-4xl text-4xl font-extrabold leading-tight tracking-[-.05em] text-navy-950 md:text-5xl",
+      "max-w-4xl text-4xl leading-tight tracking-[-.05em] text-navy-950 md:text-5xl",
+      backLink ? "mt-3 font-black" : "font-extrabold",
       illustration && "break-keep wrap-anywhere",
     ]}>{title}</h1>
     <p class:list={[
-      "mt-6 max-w-2xl text-base leading-8 text-muted",
+      "text-base leading-8 text-muted",
+      backLink ? "mt-5 max-w-lg" : "mt-6 max-w-2xl",
       illustration && "break-keep",
     ]}>{subtitle}</p>
     <slot name="actions" />

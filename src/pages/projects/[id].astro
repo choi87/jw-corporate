@@ -124,19 +124,22 @@ const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? 
     title={t(project.name)}
     subtitle={t(project.description)}
     illustration={project.id === 'ai-reply-scheduler' ? '/images/ai-reply-messenger.webp' : undefined}
+    backLink={project.id === 'ai-reply-scheduler' ? { href: href("/projects/#automation"), label: t("← 프로젝트 목록") } : undefined}
   >
     <Fragment slot="actions">
       {project.id === 'ai-reply-scheduler' && (
-        <a href="/talkmate/" class="mt-6 inline-flex items-center gap-3 rounded-lg bg-violet-700 px-6 py-3.5 font-bold text-white transition hover:bg-violet-800">
+        <a href="/talkmate/" class="mt-8 inline-flex items-center gap-3 rounded-lg bg-violet-700 px-6 py-3.5 text-sm font-extrabold text-white transition hover:bg-violet-800">
           {t("톡메이트 다운로드")} <span aria-hidden="true">↗</span>
         </a>
       )}
     </Fragment>
   </PageHero>
   <section class="container-jw py-14 md:py-20">
-    <a href={href("/projects/")} class="text-sm font-bold text-blue-700 underline-offset-4 hover:underline">{t("← 프로젝트 목록")}</a>
+    {project.id !== 'ai-reply-scheduler' && (
+      <a href={href("/projects/")} class="text-sm font-bold text-blue-700 underline-offset-4 hover:underline">{t("← 프로젝트 목록")}</a>
+    )}
     {project.status && (
-      <dl class="mt-8">
+      <dl class:list={[project.id !== 'ai-reply-scheduler' && "mt-8"]}>
         <dt class="text-sm font-semibold text-muted">{t("진행 상태")}</dt>
         <dd class="mt-2 text-lg font-bold text-navy-950">{t(statusLabel[project.status])}</dd>
       </dl>
