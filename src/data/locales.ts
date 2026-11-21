@@ -248,13 +248,6 @@ const messages: Record<string, readonly string[]> = {
     "ข้อมูลพื้นฐานบริษัท",
     "企業基本情報"
   ],
-  "확인되지 않은 법인정보는 표시하지 않습니다. 공식 정보 확인 후 업데이트합니다.": [
-    "We publish verified corporate details and update them once official information is confirmed.",
-    "企业资料经官方核实后公布和更新。",
-    "企業資料經正式查證後公布與更新。",
-    "บริษัทเผยแพร่และปรับปรุงข้อมูลนิติบุคคลเมื่อยืนยันข้อมูลทางการแล้ว",
-    "企業情報は正式に確認できた内容から掲載・更新します。"
-  ],
   "회사 연혁": [
     "Company History",
     "公司沿革",
