@@ -10,8 +10,66 @@ export function getStaticPaths() {
   }));
 }
 
+const details: Record<string, string[]> = {
+  "poker-ev-trainer": [
+    "상황별 선택지",
+    "테이블 인원, 포지션, 스택과 팟 크기, 상대의 이전 행동을 보고 다음 행동을 고릅니다.",
+    "기대값 비교",
+    "폴드·콜·레이즈 등 선택지의 기대값(EV)을 비교하고 풀이를 확인합니다."
+  ],
+  "trading-automation": [
+    "시장 조건 분석",
+    "주식과 가상자산의 시세를 분석해 사용자가 정한 진입 조건을 확인합니다.",
+    "전략과 주문 관리",
+    "진입·청산 조건, 손절·익절 기준, 주문 설정을 전략별로 관리합니다."
+  ],
+  "resale-price-search": [
+    "해외 상품 시세 검색",
+    "해외 리셀 중개사이트에 올라온 상품 가격을 한곳에서 비교합니다.",
+    "구매 비용 비교",
+    "표시 가격에 환율과 배송비를 반영해 실제 구매 비용을 비교합니다."
+  ],
+  "youtube-automation": [
+    "영상 편집",
+    "긴 원본 영상에서 주요 장면을 추려 하이라이트를 구성하고 자막과 번역을 준비합니다.",
+    "게시 준비",
+    "썸네일과 제목·키워드를 준비하고 지정한 시간에 게시하도록 예약합니다."
+  ],
+  "card-pack-inventory": [
+    "카드팩 탐색",
+    "상품별 카드팩 정보를 살펴보고 구매 가능한 상품을 확인합니다.",
+    "판매와 재고",
+    "상품 판매 화면과 상품별 재고 검색·관리 기능을 함께 제공합니다."
+  ],
+  "sword-enhancement-game": [
+    "제작과 강화",
+    "리듬 미니게임으로 검을 만들고, 강화와 합성으로 성장시키는 구조를 기획하고 있습니다.",
+    "대전과 수집",
+    "여러 자루의 검을 선택해 지형과 상대의 선택을 고려하는 대전과 도감 수집을 구상하고 있습니다."
+  ],
+  "brand-investment-distribution": [
+    "브랜드 발굴",
+    "상품과 고객층을 살펴보고 투자나 협업 가능성을 검토합니다.",
+    "판매 채널",
+    "브랜드의 상품 특성과 고객층에 맞는 판매 채널을 검토합니다."
+  ],
+  "video-production-distribution": [
+    "영상 기획·제작",
+    "주제와 대상 시청자를 정하고, 그에 맞춰 영상을 기획하고 제작하는 프로젝트입니다.",
+    "채널별 유통",
+    "채널에 맞는 영상 길이와 형식을 검토하고 배포 흐름을 설계합니다."
+  ],
+  "ai-reply-scheduler": [
+    "AI 자동응답",
+    "반복해서 들어오는 문의에 AI가 자동으로 답하도록 설정합니다.",
+    "예약전송",
+    "안내 메시지를 준비하고 날짜와 시간을 지정해 발송을 예약합니다."
+  ]
+};
+
 interface Props { project: Project }
 const { project } = Astro.props;
+const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? [];
 ---
 <BaseLayout title={project.name} description={project.description}>
   <PageHero eyebrow={project.businessArea} title={project.name} subtitle={project.description} />
@@ -22,6 +80,12 @@ const { project } = Astro.props;
         <dt class="text-sm font-semibold text-muted">진행 상태</dt>
         <dd class="mt-2 text-lg font-bold text-navy-950">{statusLabel[project.status]}</dd>
       </dl>
+    )}
+    {firstTitle && (
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        <article class="card-panel p-7"><h2 class="text-xl font-bold text-navy-950">{firstTitle}</h2><p class="mt-3 break-keep leading-8 text-muted">{firstBody}</p></article>
+        <article class="card-panel p-7"><h2 class="text-xl font-bold text-navy-950">{secondTitle}</h2><p class="mt-3 break-keep leading-8 text-muted">{secondBody}</p></article>
+      </div>
     )}
     {project.externalLink && project.status === 'released' && (
       <a href={project.externalLink} class="mt-8 inline-block font-bold text-blue-700 hover:underline">프로그램 사이트 방문 ↗</a>
