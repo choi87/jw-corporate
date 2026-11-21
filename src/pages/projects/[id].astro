@@ -76,8 +76,8 @@ const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? 
 <BaseLayout title={t(project.name)} description={t(project.description)}>
   {project.id === 'card-pack-inventory' ? (
     <>
-      <section class="overflow-hidden bg-navy-950 text-white">
-        <div class="container-jw grid items-center gap-10 py-14 md:grid-cols-[3fr_2fr] md:py-24">
+      <section class="isolate overflow-hidden bg-linear-to-r from-navy-950 via-navy-950 to-blue-950 text-white">
+        <div class="container-jw relative py-14 md:py-24">
           <div>
             <a href={href("/projects/#commerce")} class="text-sm font-semibold text-sky-200 underline-offset-4 hover:underline">{t("← 프로젝트 목록")}</a>
             <p class="mt-9 text-sm font-semibold text-sky-200">{t("트레이딩 카드팩 플랫폼")}</p>
@@ -85,13 +85,13 @@ const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? 
             <p class="mt-5 max-w-lg break-keep leading-8 text-slate-200">{t("찾고 있는 카드에 맞춰 카드팩을 살펴보고, 지역별 재고를 실시간으로 확인해 구매할 수 있는 서비스입니다.")}</p>
             <a href="https://oripa.asia/" class="mt-8 inline-flex items-center gap-3 rounded-lg bg-sky-300 px-6 py-3.5 text-sm font-extrabold text-navy-950 transition hover:bg-white">{t("ORIPA.ASIA 방문하기")} <span aria-hidden="true">↗</span></a>
           </div>
-          <div aria-hidden="true" class="relative hidden h-64 items-center justify-center md:flex">
+          <div aria-hidden="true" class="pointer-events-none absolute top-1/2 left-[62%] -z-10 flex h-56 w-80 -translate-x-1/2 -translate-y-1/2 items-center justify-center opacity-30 md:left-[55%] md:h-64 md:opacity-45">
             <div class="absolute h-52 w-36 -translate-x-15 -rotate-14 rounded-2xl border border-sky-300/35 bg-blue-800/60 shadow-xl"></div>
             <div class="absolute h-52 w-36 translate-x-15 rotate-14 rounded-2xl border border-sky-300/35 bg-blue-800/60 shadow-xl"></div>
             <div class="relative flex h-56 w-40 flex-col items-center justify-center rounded-2xl border border-sky-300/60 bg-linear-to-br from-blue-800 to-navy-950 shadow-2xl">
               <div class="mb-5 h-10 w-10 rotate-45 rounded-lg border-2 border-sky-300"></div>
-              <span class="text-2xl font-black tracking-tight">ORIPA</span>
-              <span class="mt-2 text-xs tracking-widest text-sky-200">{t("TRADING CARDS")}</span>
+              <span class="text-2xl font-black tracking-tight opacity-55">ORIPA</span>
+              <span class="mt-2 text-xs tracking-widest text-sky-200 opacity-55">{t("TRADING CARDS")}</span>
             </div>
           </div>
         </div>
