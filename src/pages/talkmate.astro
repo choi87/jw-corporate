@@ -3,6 +3,48 @@ import '../styles/global.css';
 import { company } from '../config/company';
 
 const downloadUrl = import.meta.env.PUBLIC_TALKMATE_DOWNLOAD_URL?.trim();
+const chatExamples = [
+  [
+    "상담은 몇 시까지 가능한가요?",
+    "안녕하세요! 평일 오후 6시까지 상담하실 수 있어요."
+  ],
+  [
+    "주말에도 문의할 수 있나요?",
+    "메시지는 언제든 남겨주세요. 담당자 확인이 필요하면 다음 영업일에 안내해 드려요."
+  ],
+  [
+    "방문 상담은 예약해야 하나요?",
+    "네. 원하시는 날짜와 시간을 알려주시면 가능한 일정을 확인해 드릴게요."
+  ],
+  [
+    "내일 오후 2시는 어떤가요?",
+    "내일 오후 2시로 요청을 남겨드릴게요. 확정되면 안내 메시지를 보내드려요."
+  ],
+  [
+    "예약을 변경하려면 어떻게 하나요?",
+    "기존 예약 시간과 변경을 원하시는 시간을 함께 알려주세요."
+  ],
+  [
+    "방문 전에 안내를 받을 수 있나요?",
+    "네. 예약이 확정되면 방문 전날 안내를 보내드릴 수 있어요."
+  ],
+  [
+    "방문할 때 준비할 게 있나요?",
+    "상담하고 싶은 내용을 간단히 적어 오시면 안내가 더 쉬워요."
+  ],
+  [
+    "담당자와 직접 이야기할 수 있을까요?",
+    "문의 내용을 남겨주시면 담당자가 확인할 수 있도록 전달해 드릴게요."
+  ],
+  [
+    "전화 상담도 가능한가요?",
+    "네. 통화 가능한 시간대를 알려주시면 담당자에게 전달해 드려요."
+  ],
+  [
+    "알겠습니다. 감사합니다!",
+    "문의해 주셔서 감사합니다. 궁금한 점이 생기면 언제든 메시지를 남겨주세요."
+  ]
+];
 const features = [
   { icon: 'reply', title: 'AI 자동응답', description: '반복해서 들어오는 문의에 AI가 자동으로 답하도록 설정하세요.' },
   { icon: 'clock', title: '메시지 예약전송', description: '안내 문구와 보낼 시간을 미리 정해 두고 필요한 때에 전달하세요.' },
@@ -47,16 +89,16 @@ const features = [
 
           <figure class="preview m-0 min-w-0 rounded-3xl border border-violet-300/25 bg-[#251441] shadow-2xl">
             <figcaption class="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-4">
-              <span class="font-bold">Talkmate</span><span class="text-xs text-violet-200">기능 예시</span>
+              <span class="font-bold">Talkmate</span><div class="flex items-center gap-3 text-xs text-violet-200"><span>기능 예시</span><button id="talkmate-chat-toggle" type="button" hidden class="rounded-md border border-violet-300/35 px-2 py-1">일시정지</button></div>
             </figcaption>
-            <div class="space-y-4 p-4 sm:p-6">
+            <div id="talkmate-chat" data-examples={JSON.stringify(chatExamples)} class="space-y-4 p-4 sm:p-6">
               <div class="rounded-2xl bg-white/7 p-4">
                 <p class="text-sm font-semibold text-violet-200">고객 문의</p>
-                <p class="mt-2">상담은 몇 시까지 가능한가요?</p>
+                <p id="talkmate-question" class="mt-2 min-h-[3em]">{chatExamples[0][0]}</p>
               </div>
               <div class="ml-5 rounded-2xl bg-violet-500/25 p-4 sm:ml-10">
                 <p class="text-sm font-semibold text-violet-200">AI 자동응답</p>
-                <p class="mt-2">안녕하세요! 평일 오후 6시까지 상담하실 수 있어요.</p>
+                <p id="talkmate-answer" class="mt-2 min-h-[4.5em]">{chatExamples[0][1]}</p>
               </div>
               <div class="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-violet-300/20 px-4 py-3">
                 <span class="text-sm text-violet-100">안내 메시지</span>
@@ -129,3 +171,65 @@ const features = [
     box-shadow: 0 24px 75px rgb(11 3 30 / .45);
   }
 </style>
+
+<script>
+  const chat = document.querySelector<HTMLElement>('#talkmate-chat');
+  const question = document.getElementById('talkmate-question');
+  const answer = document.getElementById('talkmate-answer');
+  const toggle = document.querySelector<HTMLButtonElement>('#talkmate-chat-toggle');
+
+  if (chat?.dataset.examples && question && answer && toggle) {
+    const examples: [string, string][] = JSON.parse(chat.dataset.examples);
+    const motion = matchMedia('(prefers-reduced-motion: reduce)');
+    let step = 0;
+    let waitingForAnswer = false;
+    let playing = !motion.matches;
+    let timer: number | undefined;
+
+    function updateControls() {
+      toggle!.textContent = playing ? '일시정지' : '재생';
+    }
+
+    function animateMessage(message: HTMLElement) {
+      if (!motion.matches) {
+        message.animate(
+          [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'translateY(0)' }],
+          { duration: 280, easing: 'ease-out' },
+        );
+      }
+    }
+
+    function schedule(delay: number) {
+      window.clearTimeout(timer);
+      if (!playing || document.hidden) return;
+      timer = window.setTimeout(() => {
+        if (waitingForAnswer) {
+          answer!.textContent = examples[step][1];
+          animateMessage(answer!);
+        } else {
+          step = (step + 1) % examples.length;
+          question!.textContent = examples[step][0];
+          answer!.textContent = '답변 작성 중…';
+          animateMessage(question!);
+        }
+        waitingForAnswer = !waitingForAnswer;
+        schedule(waitingForAnswer ? 1100 : 3600);
+      }, delay);
+    }
+
+    toggle.hidden = false;
+    updateControls();
+    toggle.addEventListener('click', () => {
+      playing = !playing;
+      updateControls();
+      schedule(waitingForAnswer ? 1100 : 3600);
+    });
+    motion.addEventListener('change', () => {
+      playing = !motion.matches;
+      updateControls();
+      schedule(waitingForAnswer ? 1100 : 3600);
+    });
+    document.addEventListener('visibilitychange', () => schedule(waitingForAnswer ? 1100 : 3600));
+    schedule(3600);
+  }
+</script>
