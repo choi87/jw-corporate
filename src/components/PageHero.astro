@@ -2,22 +2,31 @@
 interface Props { eyebrow: string; title: string; subtitle: string; illustration?: string; }
 const { eyebrow, title, subtitle, illustration } = Astro.props;
 ---
-<section class="border-b border-line bg-surface py-17 md:py-24">
-  <div class:list={["container-jw", illustration && "grid items-center gap-6 md:grid-cols-[3fr_2fr] md:gap-10"]}>
-    <div class="min-w-0">
-      <p class="eyebrow mb-5">{eyebrow}</p>
-      <h1 class:list={["max-w-4xl text-4xl font-extrabold leading-tight tracking-[-.05em] text-navy-950 md:text-5xl", illustration && "break-keep wrap-anywhere"]}>{title}</h1>
-      <p class:list={["mt-6 max-w-2xl text-base leading-8 text-muted", illustration && "break-keep"]}>{subtitle}</p>
-    </div>
-    {illustration && (
-      <img
-        src={illustration}
-        alt=""
-        width="960"
-        height="640"
-        class="mx-auto h-48 w-full object-contain md:h-64"
-        fetchpriority="high"
-      />
-    )}
+<section class:list={[
+  "border-b border-line py-17 md:py-24",
+  illustration
+    ? "relative isolate overflow-hidden bg-linear-to-r from-[#fbf8fe] to-[#efe5f9]"
+    : "bg-surface",
+]}>
+  {illustration && (
+    <img
+      src={illustration}
+      alt=""
+      width="960"
+      height="640"
+      class="pointer-events-none absolute top-1/2 -right-14 -z-10 h-56 w-auto max-w-none -translate-y-1/2 opacity-25 md:right-[5%] md:h-64 md:opacity-40"
+      fetchpriority="high"
+    />
+  )}
+  <div class="container-jw">
+    <p class="eyebrow mb-5">{eyebrow}</p>
+    <h1 class:list={[
+      "max-w-4xl text-4xl font-extrabold leading-tight tracking-[-.05em] text-navy-950 md:text-5xl",
+      illustration && "break-keep wrap-anywhere",
+    ]}>{title}</h1>
+    <p class:list={[
+      "mt-6 max-w-2xl text-base leading-8 text-muted",
+      illustration && "break-keep",
+    ]}>{subtitle}</p>
   </div>
 </section>
