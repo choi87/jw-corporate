@@ -79,6 +79,7 @@ const languages = [
 
     function loadTranslation() {
       setTranslationCookie(currentLanguage);
+      document.documentElement.classList.add('jw-translated');
       window.jwInitializeTranslation = () => {
         new window.google.translate.TranslateElement({
           pageLanguage: 'ko',
@@ -129,3 +130,15 @@ const languages = [
     if (currentLanguage !== 'ko') loadTranslation();
   })();
 </script>
+
+<style is:global>
+  html.jw-translated body {
+    top: 0 !important;
+  }
+
+  html.jw-translated iframe.goog-te-banner-frame,
+  html.jw-translated iframe.skiptranslate,
+  html.jw-translated body > .skiptranslate:has(iframe) {
+    display: none !important;
+  }
+</style>
