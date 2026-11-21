@@ -15,17 +15,17 @@ const { eyebrow, title, subtitle, illustration, backLink } = Astro.props;
     ? "relative isolate overflow-hidden bg-linear-to-r from-[#fbf8fe] to-[#efe5f9]"
     : "bg-surface",
 ]}>
-  {illustration && (
-    <img
-      src={illustration}
-      alt=""
-      width="960"
-      height="640"
-      class="pointer-events-none absolute top-1/2 -right-14 -z-10 h-56 w-auto max-w-none -translate-y-1/2 opacity-25 md:right-[5%] md:h-64 md:opacity-40"
-      fetchpriority="high"
-    />
-  )}
-  <div class="container-jw">
+  <div class:list={["container-jw", illustration && "relative"]}>
+    {illustration && (
+      <img
+        src={illustration}
+        alt=""
+        width="960"
+        height="640"
+        class="pointer-events-none absolute top-1/2 -right-14 -z-10 h-56 w-auto max-w-none -translate-y-1/2 opacity-25 md:right-auto md:left-[min(53%,36rem)] md:h-64 md:opacity-40"
+        fetchpriority="high"
+      />
+    )}
     {backLink && (
       <a href={backLink.href} class="text-sm font-semibold text-violet-800 underline-offset-4 hover:underline">{backLink.label}</a>
     )}
