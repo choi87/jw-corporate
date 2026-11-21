@@ -1,0 +1,109 @@
+---
+import '../styles/global.css';
+import { company } from '../config/company';
+
+const downloadUrl = import.meta.env.PUBLIC_TALKMATE_DOWNLOAD_URL?.trim();
+const features = [
+  { icon: 'reply', title: 'AI 자동응답', description: '반복해서 들어오는 문의에 AI가 자동으로 답하도록 설정하세요.' },
+  { icon: 'clock', title: '메시지 예약전송', description: '안내 문구와 보낼 시간을 미리 정해 두고 필요한 때에 전달하세요.' },
+];
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="톡메이트는 반복 문의에 자동으로 응답하고 안내 메시지를 예약할 수 있는 프로그램입니다." />
+    <meta name="theme-color" content="#180c30" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://jwcorp.net/talkmate/" />
+    <title>톡메이트 다운로드 | Talkmate</title>
+  </head>
+  <body class="bg-[#180c30] text-white antialiased">
+    <header class="border-b border-white/10">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-5">
+        <a href="/talkmate/" class="flex items-center gap-3 text-xl font-black tracking-tight">
+          <span class="grid size-10 place-items-center rounded-xl bg-violet-500 text-white" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M7 9h10M7 13h6"/></svg>
+          </span>
+          Talkmate
+        </a>
+        <a href="/projects/ai-reply-scheduler/" class="text-sm font-semibold text-violet-200 hover:text-white">← 프로젝트 상세</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="mx-auto grid max-w-6xl items-center gap-12 px-6 py-17 md:py-25 lg:grid-cols-[1fr_1fr]">
+          <div>
+            <h1 class="text-5xl font-black tracking-tight sm:text-7xl">톡메이트</h1>
+            <p class="mt-5 text-2xl font-bold leading-snug text-violet-200 sm:text-3xl">반복 문의는 자동으로,<br />안내 메시지는 제시간에.</p>
+            <p class="mt-5 max-w-md text-base leading-8 text-violet-100/80">AI 자동응답과 메시지 예약전송을 한곳에서 관리하는 프로그램입니다.</p>
+            <a href="#download" class="mt-8 inline-flex items-center gap-3 rounded-xl bg-violet-300 px-6 py-3.5 font-extrabold text-[#26124e] transition hover:bg-white">다운로드 안내 <span aria-hidden="true">↓</span></a>
+          </div>
+
+          <figure class="preview m-0 min-w-0 rounded-3xl border border-violet-300/25 bg-[#251441] shadow-2xl">
+            <figcaption class="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-4">
+              <span class="font-bold">Talkmate</span><span class="text-xs text-violet-200">기능 예시</span>
+            </figcaption>
+            <div class="space-y-4 p-4 sm:p-6">
+              <div class="rounded-2xl bg-white/7 p-4">
+                <p class="text-sm font-semibold text-violet-200">고객 문의</p>
+                <p class="mt-2">상담은 몇 시까지 가능한가요?</p>
+              </div>
+              <div class="ml-5 rounded-2xl bg-violet-500/25 p-4 sm:ml-10">
+                <p class="text-sm font-semibold text-violet-200">AI 자동응답</p>
+                <p class="mt-2">안녕하세요! 평일 오후 6시까지 상담하실 수 있어요.</p>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-violet-300/20 px-4 py-3">
+                <span class="text-sm text-violet-100">안내 메시지</span>
+                <span class="rounded-full bg-violet-300 px-3 py-1 text-xs font-bold text-[#26124e]">내일 오전 10시 발송 예약</span>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <section class="bg-[#f8f5ff] px-6 py-16 text-[#26124e]" aria-label="주요 기능">
+        <div class="mx-auto grid max-w-6xl gap-5 md:grid-cols-2">
+          {features.map(({icon,title,description}) => (
+            <article class="rounded-2xl border border-violet-200 bg-white p-7">
+              <span class="grid size-11 place-items-center rounded-xl bg-violet-100 text-violet-800" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+                  {icon === 'clock' ? <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></> : <path d="M9 9V5l-6 6 6 6v-4h4a5 5 0 0 1 5 5v1h3v-2a8 8 0 0 0-8-8Z"/>}
+                </svg>
+              </span>
+              <h2 class="mt-4 text-xl font-extrabold">{title}</h2>
+              <p class="mt-3 leading-7 text-[#54456e]">{description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="download" class="scroll-mt-6 bg-[#251441] px-6 py-17 text-center">
+        <h2 class="text-3xl font-black sm:text-4xl">톡메이트 다운로드</h2>
+        {downloadUrl ? (
+          <a href={downloadUrl} class="mt-6 inline-flex rounded-xl bg-violet-300 px-7 py-3.5 font-extrabold text-[#26124e] hover:bg-white">설치 파일 다운로드</a>
+        ) : (
+          <p class="mt-4 text-violet-100/80">설치 파일을 준비 중입니다.</p>
+        )}
+      </section>
+    </main>
+
+    <footer class="mx-auto flex max-w-6xl flex-wrap justify-between gap-3 px-6 py-7 text-sm text-violet-200">
+      <span>© {new Date().getFullYear()} {company.legalName}</span>
+      <a href="/privacy/" class="hover:text-white">개인정보처리방침</a>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .hero {
+    background: radial-gradient(ellipse at 74% 20%, #512a86, transparent 62%), #180c30;
+  }
+
+  .preview {
+    overflow-wrap: anywhere;
+    box-shadow: 0 24px 75px rgb(11 3 30 / .45);
+  }
+</style>

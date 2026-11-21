@@ -10,6 +10,7 @@ export const languages = [
 export type Locale = typeof languages[number]['code'];
 
 const messages: Record<string, readonly string[]> = {
+  "톡메이트 다운로드": ["Download Talkmate", "下载 Talkmate", "下載 Talkmate", "ดาวน์โหลด Talkmate", "Talkmateをダウンロード"],
   "소프트웨어 및 애플리케이션": [
     "Software and Applications",
     "软件与应用",
