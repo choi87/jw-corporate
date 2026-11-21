@@ -18,12 +18,12 @@ const languages = [
 ];
 ---
 <header class="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur-md">
-  <div class="container-jw flex min-h-18 items-center justify-between gap-6">
-    <a href="/" class="flex items-center gap-3 text-navy-950" aria-label="제이더블유 홈">
-      <img src="/favicon.svg" width="40" height="40" alt="" class="block h-10 w-10 shrink-0" />
-      <span id="site-company-name" class="text-[0.94rem] font-extrabold tracking-tight">{company.legalName}</span>
+  <div class="container-jw flex min-h-18 items-center justify-between gap-2 sm:gap-6">
+    <a href="/" class="flex min-w-0 items-center gap-2 text-navy-950 sm:gap-3" aria-label="제이더블유 홈">
+      <img src="/favicon.svg" width="40" height="40" alt="" class="block h-8 w-8 shrink-0 sm:h-10 sm:w-10" />
+      <span id="site-company-name" class="truncate text-[0.8rem] font-extrabold tracking-tight sm:text-[0.94rem]">{company.legalName}</span>
     </a>
-    <div class="flex items-center gap-3 md:gap-4">
+    <div class="flex shrink-0 items-center gap-1 sm:gap-3 md:gap-4">
     <nav aria-label="주 메뉴" class="hidden items-center gap-4 lg:flex xl:gap-7">
       {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined} class:list={['whitespace-nowrap text-sm font-bold transition hover:text-blue-700', path === item.href ? 'text-blue-700' : 'text-muted']}>{item.label}</a>)}
     </nav>
@@ -41,7 +41,7 @@ const languages = [
       </div>
     </details>
     <details class="group relative lg:hidden">
-      <summary class="cursor-pointer list-none rounded-md border border-line px-3 py-2 text-sm font-semibold marker:hidden">메뉴 <span aria-hidden="true">☰</span></summary>
+      <summary class="flex cursor-pointer list-none items-center gap-1 whitespace-nowrap rounded-md border border-line px-2 py-2 text-xs font-semibold marker:hidden sm:px-3 sm:text-sm [&::-webkit-details-marker]:hidden"><span>메뉴</span><span aria-hidden="true" translate="no">☰</span></summary>
       <nav aria-label="모바일 주 메뉴" class="absolute right-0 top-12 w-48 rounded-xl border border-line bg-white p-3 shadow-xl">
         {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined} class="block rounded-md px-3 py-2.5 text-sm font-semibold hover:bg-surface">{item.label}</a>)}
       </nav>
@@ -107,6 +107,7 @@ const languages = [
     }
 
     if (language === 'ko') return;
+    document.documentElement.dataset.siteLanguage = language;
     document.documentElement.classList.add('jw-translated');
     status.hidden = false;
     status.textContent = '번역 중… / Translating…';
@@ -166,6 +167,21 @@ const languages = [
 </script>
 
 <style is:global>
+  @media (max-width: 639px) {
+    html[data-site-language="ja"] #site-company-name {
+      font-size: clamp(0.625rem, 3vw, 0.8125rem);
+    }
+
+    html.jw-translated main {
+      overflow-x: clip;
+      overflow-wrap: anywhere;
+    }
+
+    html.jw-translated main .break-keep {
+      word-break: normal;
+    }
+  }
+
   #site-translation-provider[hidden],
   html.jw-translated iframe.goog-te-banner-frame,
   html.jw-translated iframe.skiptranslate,
