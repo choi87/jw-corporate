@@ -1,11 +1,11 @@
-export type ProjectStatus = 'planning' | 'development' | 'testing' | 'released';
+export type ProjectStatus = 'planning' | 'development' | 'testing' | 'completed' | 'released';
 
 export type Project = {
   id: string;
   name: string;
   description: string;
   businessArea: string;
-  status?: ProjectStatus;
+  status: ProjectStatus;
   image: string;
   externalLink: string;
   isPublic: boolean;
@@ -47,6 +47,7 @@ export const projects: Project[] = [
     name: '해외 리셀 중개사이트 시세 비교 검색 프로그램',
     description: '해외 리셀 중개사이트의 상품 가격을 한곳에서 검색하고, 환율과 배송비를 반영해 구매 비용을 비교하는 프로그램입니다.',
     businessArea: 'E-Commerce',
+    status: 'completed',
     image: '',
     externalLink: '',
     isPublic: true,
@@ -56,6 +57,7 @@ export const projects: Project[] = [
     name: '유튜브 자동화 프로그램',
     description: '영상에서 하이라이트를 추출하고 자막, 번역, 썸네일, 예약 게시 작업을 자동화하는 프로그램입니다.',
     businessArea: 'AI & Automation',
+    status: 'completed',
     image: '',
     externalLink: '',
     isPublic: true,
@@ -65,6 +67,7 @@ export const projects: Project[] = [
     name: '카드팩 판매 및 재고 검색 프로그램',
     description: '트레이딩 카드팩을 검색하고 구매할 수 있는 판매 기능과 상품별 재고를 관리하는 기능을 한곳에 모은 프로그램입니다.',
     businessArea: 'E-Commerce',
+    status: 'completed',
     image: '',
     externalLink: '',
     isPublic: true,
@@ -74,6 +77,7 @@ export const projects: Project[] = [
     name: '브랜드 투자·유통',
     description: '성장 가능성이 있는 브랜드의 투자와 협업을 검토하고, 상품의 판매 채널을 넓히는 프로젝트입니다.',
     businessArea: 'E-Commerce',
+    status: 'completed',
     image: '',
     externalLink: '',
     isPublic: true,
@@ -94,6 +98,7 @@ export const statusLabel: Record<ProjectStatus, string> = {
   planning: '기획 중',
   development: '개발 중',
   testing: '테스트 중',
+  completed: '개발 완료',
   released: '출시',
 };
 
