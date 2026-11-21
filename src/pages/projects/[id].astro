@@ -119,7 +119,12 @@ const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? 
     </>
   ) : (
     <>
-  <PageHero eyebrow={t(project.businessArea)} title={t(project.name)} subtitle={t(project.description)} />
+  <PageHero
+    eyebrow={t(project.businessArea)}
+    title={t(project.name)}
+    subtitle={t(project.description)}
+    illustration={project.id === 'ai-reply-scheduler' ? '/images/ai-reply-messenger.webp' : undefined}
+  />
   <section class="container-jw py-14 md:py-20">
     <a href={href("/projects/")} class="text-sm font-bold text-blue-700 underline-offset-4 hover:underline">{t("← 프로젝트 목록")}</a>
     {project.status && (
