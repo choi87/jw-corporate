@@ -4,11 +4,13 @@ import PageHero from '../components/PageHero.astro';
 import { company } from '../config/company';
 const facts = [
   ['법인명', company.legalName],
+  ['영문 표기', company.englishName],
   ['대표자', company.ceo],
-  ['사업자등록번호', company.registrationNumber],
+  ['사업자등록번호', company.businessRegistrationNumber],
+  ['법인등록번호', company.corporateRegistrationNumber],
   ['설립일', company.established],
   ['소재지', company.address],
-].filter(([, v]) => !!v);
+].filter(([, value]) => !!value);
 ---
 <BaseLayout title="COMPANY">
   <PageHero eyebrow="ABOUT JW" title="기술의 가능성을 현실적인 가치로" subtitle="주식회사 제이더블유는 디지털 기술을 토대로 다양한 서비스 기회를 검토하고 제품 개발을 추진합니다." />
