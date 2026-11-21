@@ -18,7 +18,7 @@ export const projects: Project[] = [
     description: '포커 상황별 선택지와 기대값(EV)을 비교하며 의사결정 원리를 익히는 교육용 애플리케이션을 개발하고 있습니다. 실제 금전 거래 기능은 제공하지 않습니다.',
     businessArea: 'Software & Applications',
     status: 'development',
-    image: '/images/poker-ev.svg',
+    image: '',
     externalLink: '',
     isPublic: true,
   },
