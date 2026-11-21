@@ -90,7 +90,7 @@ const features = [
 
           <figure class="preview m-0 min-w-0 rounded-3xl border border-violet-300/25 bg-[#251441] shadow-2xl">
             <figcaption class="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-4">
-              <span class="font-bold">Talkmate</span><div class="flex items-center gap-3 text-xs text-violet-200"><span>기능 예시</span><button id="talkmate-chat-toggle" type="button" hidden class="rounded-md border border-violet-300/35 px-2 py-1">일시정지</button></div>
+              <span class="font-bold">Talkmate</span><button id="talkmate-chat-toggle" type="button" hidden class="sr-only focus:not-sr-only rounded-md border border-violet-300/35 px-2 py-1 text-xs text-violet-200">일시정지</button>
             </figcaption>
             <div id="talkmate-chat" data-examples={JSON.stringify(chatExamples)} class="space-y-4 p-4 sm:p-6">
               <div id="talkmate-chat-history" tabindex="0" aria-label="고객 문의와 AI 답변 예시" class="h-64 space-y-3 overflow-y-auto overscroll-contain pr-1">
