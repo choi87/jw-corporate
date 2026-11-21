@@ -56,7 +56,6 @@ export const projects: Project[] = [
     name: '유튜브 자동화 프로그램',
     description: '영상에서 하이라이트를 추출하고 자막, 번역, 썸네일, 예약 게시 작업을 자동화하는 프로그램입니다.',
     businessArea: 'AI & Automation',
-    status: 'planning',
     image: '',
     externalLink: '',
     isPublic: true,
