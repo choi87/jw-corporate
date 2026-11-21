@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { publicProjects } from '../data/projects';
+---
+<BaseLayout title="PROJECTS">
+  <PageHero eyebrow="OUR PROJECTS" title="프로젝트" subtitle="프로젝트의 공개 범위와 진행 상태를 구분해 소개합니다. 출시되지 않은 서비스는 현재 제공 중인 상품이나 서비스가 아닙니다." />
+  <section class="container-jw py-16 md:py-24">
+    {publicProjects.length ? <div class="grid gap-5 md:grid-cols-2">{publicProjects.map((project) => <ProjectCard project={project} />)}</div> : <p class="text-muted">공개 가능한 프로젝트를 준비 중입니다.</p>}
+    <p class="mt-8 text-sm text-muted">※ 기획·개발 단계 프로젝트의 일정 및 내용은 변경될 수 있습니다.</p>
+  </section>
+</BaseLayout>
