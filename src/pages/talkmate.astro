@@ -92,13 +92,15 @@ const features = [
               <span class="font-bold">Talkmate</span><div class="flex items-center gap-3 text-xs text-violet-200"><span>기능 예시</span><button id="talkmate-chat-toggle" type="button" hidden class="rounded-md border border-violet-300/35 px-2 py-1">일시정지</button></div>
             </figcaption>
             <div id="talkmate-chat" data-examples={JSON.stringify(chatExamples)} class="space-y-4 p-4 sm:p-6">
-              <div class="rounded-2xl bg-white/7 p-4">
-                <p class="text-sm font-semibold text-violet-200">고객 문의</p>
-                <p id="talkmate-question" class="mt-2 min-h-[3em]">{chatExamples[0][0]}</p>
-              </div>
-              <div class="ml-5 rounded-2xl bg-violet-500/25 p-4 sm:ml-10">
-                <p class="text-sm font-semibold text-violet-200">AI 자동응답</p>
-                <p id="talkmate-answer" class="mt-2 min-h-[4.5em]">{chatExamples[0][1]}</p>
+              <div id="talkmate-chat-history" tabindex="0" aria-label="고객 문의와 AI 답변 예시" class="h-64 space-y-3 overflow-y-auto overscroll-contain pr-1">
+                <div class="rounded-2xl bg-white/7 p-4">
+                  <p class="text-sm font-semibold text-violet-200">고객 문의</p>
+                  <p class="mt-2">{chatExamples[0][0]}</p>
+                </div>
+                <div class="ml-5 rounded-2xl bg-violet-500/25 p-4">
+                  <p class="text-sm font-semibold text-violet-200">AI 자동응답</p>
+                  <p class="mt-2">{chatExamples[0][1]}</p>
+                </div>
               </div>
               <div class="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-violet-300/20 px-4 py-3">
                 <span class="text-sm text-violet-100">안내 메시지</span>
@@ -144,7 +146,7 @@ const features = [
         {downloadUrl ? (
           <a href={downloadUrl} class="mt-6 inline-flex rounded-xl bg-violet-300 px-7 py-3.5 font-extrabold text-[#26124e] hover:bg-white">설치 파일 다운로드</a>
         ) : (
-          <><button type="button" disabled class="mt-6 rounded-xl bg-violet-300/25 px-7 py-3.5 font-extrabold text-violet-100">설치 파일 다운로드</button><p class="mt-3 text-sm text-violet-100/80">설치 파일을 준비 중입니다.</p></>
+          <button type="button" disabled class="mt-6 rounded-xl bg-violet-300/25 px-7 py-3.5 font-extrabold text-violet-100">다운로드 준비 중</button>
         )}
       </section>
     </main>
@@ -174,11 +176,10 @@ const features = [
 
 <script>
   const chat = document.querySelector<HTMLElement>('#talkmate-chat');
-  const question = document.getElementById('talkmate-question');
-  const answer = document.getElementById('talkmate-answer');
+  const history = document.getElementById('talkmate-chat-history');
   const toggle = document.querySelector<HTMLButtonElement>('#talkmate-chat-toggle');
 
-  if (chat?.dataset.examples && question && answer && toggle) {
+  if (chat?.dataset.examples && history && toggle) {
     const examples: [string, string][] = JSON.parse(chat.dataset.examples);
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     let step = 0;
@@ -186,50 +187,51 @@ const features = [
     let playing = !motion.matches;
     let timer: number | undefined;
 
-    function updateControls() {
-      toggle!.textContent = playing ? '일시정지' : '재생';
-    }
+    const appendMessage = (message: string, isAnswer: boolean) => {
+      const bubble = document.createElement('div');
+      bubble.className = isAnswer ? 'ml-5 rounded-2xl bg-violet-500/25 p-4' : 'rounded-2xl bg-white/7 p-4';
+      const label = document.createElement('p');
+      label.className = 'text-sm font-semibold text-violet-200';
+      label.textContent = isAnswer ? 'AI 자동응답' : '고객 문의';
+      const body = document.createElement('p');
+      body.className = 'mt-2';
+      body.textContent = message;
+      bubble.append(label, body);
+      history.append(bubble);
+      if (history.childElementCount > 24) history.firstElementChild?.remove();
+      history.scrollTo({ top: history.scrollHeight, behavior: motion.matches ? 'auto' : 'smooth' });
+      if (!motion.matches) bubble.animate(
+        [{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'translateY(0)' }],
+        { duration: 280, easing: 'ease-out' },
+      );
+    };
 
-    function animateMessage(message: HTMLElement) {
-      if (!motion.matches) {
-        message.animate(
-          [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'translateY(0)' }],
-          { duration: 280, easing: 'ease-out' },
-        );
-      }
-    }
-
-    function schedule(delay: number) {
+    const schedule = () => {
       window.clearTimeout(timer);
+      toggle.textContent = playing ? '일시정지' : '재생';
       if (!playing || document.hidden) return;
       timer = window.setTimeout(() => {
         if (waitingForAnswer) {
-          answer!.textContent = examples[step][1];
-          animateMessage(answer!);
+          appendMessage(examples[step][1], true);
         } else {
           step = (step + 1) % examples.length;
-          question!.textContent = examples[step][0];
-          answer!.textContent = '답변 작성 중…';
-          animateMessage(question!);
+          appendMessage(examples[step][0], false);
         }
         waitingForAnswer = !waitingForAnswer;
-        schedule(waitingForAnswer ? 1100 : 3600);
-      }, delay);
-    }
+        schedule();
+      }, waitingForAnswer ? 1100 : 3600);
+    };
 
     toggle.hidden = false;
-    updateControls();
     toggle.addEventListener('click', () => {
       playing = !playing;
-      updateControls();
-      schedule(waitingForAnswer ? 1100 : 3600);
+      schedule();
     });
     motion.addEventListener('change', () => {
       playing = !motion.matches;
-      updateControls();
-      schedule(waitingForAnswer ? 1100 : 3600);
+      schedule();
     });
-    document.addEventListener('visibilitychange', () => schedule(waitingForAnswer ? 1100 : 3600));
-    schedule(3600);
+    document.addEventListener('visibilitychange', schedule);
+    schedule();
   }
 </script>
