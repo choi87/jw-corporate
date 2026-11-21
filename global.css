@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+@theme {
+  --color-navy-950: #09162b;
+  --color-navy-900: #10213c;
+  --color-navy-800: #1c3150;
+  --color-ink: #17243a;
+  --color-muted: #5e6d82;
+  --color-line: #e2e9f1;
+  --color-surface: #f5f8fb;
+}
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: white; color: var(--color-ink); font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Segoe UI', sans-serif; }
+::selection { background: #b8d8fc; color: #09162b; }
+a:focus-visible, button:focus-visible { outline: 3px solid #338be8; outline-offset: 3px; }
+.container-jw { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+@media (min-width: 768px) { .container-jw { width: min(1160px, calc(100% - 80px)); } }
+.eyebrow { color: #2c689c; font-weight: 700; font-size: 0.75rem; letter-spacing: .16em; }
+.section-title { font-weight: 750; letter-spacing: -.045em; font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1.25; }
+.card-panel { border: 1px solid var(--color-line); border-radius: 1rem; background: #fff; }

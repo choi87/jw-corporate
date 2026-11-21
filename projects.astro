@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { projects, statusLabel } from '../data/projects';
+---
+<BaseLayout title="PROJECTS">
+  <PageHero eyebrow="OUR PROJECTS" title="프로젝트" subtitle="기획 중, 개발 중, 출시 상태를 명확히 구분해 소개합니다. 서비스 출시와 운영은 별도 확인 후 공지합니다." />
+  <section class="container-jw py-18 md:py-25">
+    {projects.length > 0 ? <div class="grid gap-5 md:grid-cols-2">{projects.map(p => <article class="card-panel flex flex-col p-8"><div class="mb-7 flex flex-wrap items-center justify-between gap-3"><span class="text-xs font-bold tracking-widest text-muted">{p.category}</span><span class:list={['rounded-full px-3 py-1 text-xs font-bold', p.status === 'released' ? 'bg-emerald-50 text-emerald-800' : 'bg-slate-100 text-slate-700']}>{statusLabel[p.status]}</span></div><h2 class="text-2xl font-bold tracking-tight text-navy-950">{p.title}</h2><p class="mt-4 flex-1 text-sm leading-8 text-muted">{p.description}</p>{p.url && p.status === 'released' && <a href={p.url} target="_blank" rel="noopener noreferrer" class="mt-7 text-sm font-semibold text-blue-700 underline-offset-4 hover:underline">프로젝트 사이트 방문 <span aria-hidden="true">↗</span></a>}</article>)}</div> : <p class="text-muted">공개 가능한 프로젝트를 준비 중입니다.</p>}
+    <p class="mt-8 text-sm text-muted">※ 개발·기획 단계의 프로젝트는 현재 판매 또는 제공 중인 서비스가 아닙니다.</p>
+  </section>
+</BaseLayout>

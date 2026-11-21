@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { company } from '../config/company';
+const facts = [
+  ['법인명', company.legalName],
+  ['대표자', company.ceo],
+  ['사업자등록번호', company.registrationNumber],
+  ['설립일', company.established],
+  ['소재지', company.address],
+].filter(([, v]) => !!v);
+---
+<BaseLayout title="COMPANY">
+  <PageHero eyebrow="ABOUT JW" title="기술의 가능성을 현실적인 가치로" subtitle="주식회사 제이더블유는 디지털 기술을 토대로 다양한 서비스 기회를 검토하고 제품 개발을 추진합니다." />
+  <section class="container-jw grid gap-12 py-19 md:grid-cols-[1fr_1fr] md:py-26">
+    <div><p class="eyebrow mb-4">WHO WE ARE</p><h2 class="section-title text-navy-950">실용성 중심의 디지털 기업</h2></div>
+    <div class="space-y-5 text-base leading-8 text-muted"><p>우리는 소프트웨어, AI 자동화, 전자상거래 및 디지털 플랫폼을 주요 관심 사업 영역으로 설정하고 있습니다.</p><p>명확한 사용 목적, 간결한 사용자 경험, 지속 가능한 운영 구조를 제품과 서비스 기획의 기준으로 삼습니다.</p><p class="text-sm">본 사이트는 회사 및 추진 사업을 안내하기 위한 공식 채널이며, 기획·개발 중인 프로젝트를 상용 서비스로 표현하지 않습니다.</p></div>
+  </section>
+  <section class="bg-surface py-18"><div class="container-jw"><p class="eyebrow mb-4">CORPORATE INFORMATION</p><h2 class="mb-8 text-2xl font-bold text-navy-950">기업 기본 정보</h2><dl class="grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2">{facts.map(([label, value]) => <div class="bg-white px-6 py-5"><dt class="mb-2 text-xs font-bold text-muted">{label}</dt><dd class="font-semibold text-navy-950">{value}</dd></div>)}</dl><p class="mt-5 text-xs leading-6 text-muted">확인되지 않은 법인정보는 표시하지 않습니다. 공식 정보 확인 후 업데이트합니다.</p></div></section>
+</BaseLayout>

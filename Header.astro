@@ -1,0 +1,28 @@
+---
+import { company } from '../config/company';
+const nav = [
+  { href: '/', label: 'HOME' },
+  { href: '/company/', label: 'COMPANY' },
+  { href: '/business/', label: 'BUSINESS' },
+  { href: '/projects/', label: 'PROJECTS' },
+  { href: '/contact/', label: 'CONTACT' },
+];
+const path = Astro.url.pathname;
+---
+<header class="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur-md">
+  <div class="container-jw flex min-h-18 items-center justify-between gap-6">
+    <a href="/" class="flex items-center gap-3 text-navy-950" aria-label="제이더블유 홈">
+      <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-navy-950 text-lg font-black tracking-tight text-white">JW</span>
+      <span class="text-[0.94rem] font-extrabold tracking-tight">{company.legalName}</span>
+    </a>
+    <nav aria-label="주 메뉴" class="hidden items-center gap-7 md:flex">
+      {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined} class:list={['text-xs font-bold tracking-widest transition hover:text-blue-700', path === item.href ? 'text-blue-700' : 'text-muted']}>{item.label}</a>)}
+    </nav>
+    <details class="group relative md:hidden">
+      <summary class="cursor-pointer list-none rounded-md border border-line px-3 py-2 text-sm font-semibold marker:hidden">메뉴 <span aria-hidden="true">☰</span></summary>
+      <nav aria-label="모바일 주 메뉴" class="absolute right-0 top-12 w-48 rounded-xl border border-line bg-white p-3 shadow-xl">
+        {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined} class="block rounded-md px-3 py-2.5 text-sm font-semibold hover:bg-surface">{item.label}</a>)}
+      </nav>
+    </details>
+  </div>
+</header>

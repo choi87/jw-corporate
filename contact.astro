@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { company, contact } from '../config/company';
+---
+<BaseLayout title="CONTACT">
+  <PageHero eyebrow="GET IN TOUCH" title="Contact JW" subtitle="사업 및 제휴에 관한 문의를 위한 기업 연락처 안내 페이지입니다." />
+  <section class="container-jw grid gap-9 py-19 md:grid-cols-[1fr_1fr] md:py-26">
+    <div><p class="eyebrow mb-4">CONTACT INFORMATION</p><h2 class="section-title text-navy-950">함께할 기회를 이야기합니다.</h2><p class="mt-5 max-w-md text-sm leading-8 text-muted">실제 수신 가능 여부를 확인한 연락처만 게시합니다. 이 사이트는 문의 내용을 수집·저장하는 별도의 온라인 입력 양식을 운영하지 않습니다.</p></div>
+    <div class="card-panel space-y-7 p-8 md:p-10">
+      <div><p class="mb-2 text-xs font-bold tracking-widest text-muted">COMPANY</p><p class="text-lg font-bold text-navy-950">{company.legalName}</p></div>
+      {contact.hasEmail && <div><p class="mb-2 text-xs font-bold tracking-widest text-muted">EMAIL</p><a href={`mailto:${company.email}`} class="break-all font-semibold text-blue-700 underline-offset-4 hover:underline">{company.email}</a></div>}
+      {contact.hasPhone && <div><p class="mb-2 text-xs font-bold tracking-widest text-muted">PHONE</p><a href={`tel:${company.phone.replace(/[^\d+]/g,'')}`} class="font-semibold text-blue-700 underline-offset-4 hover:underline">{company.phone}</a></div>}
+      {company.address && <div><p class="mb-2 text-xs font-bold tracking-widest text-muted">ADDRESS</p><p class="font-semibold text-navy-950">{company.address}</p></div>}
+      {!contact.hasEmail && !contact.hasPhone && <p class="rounded-lg bg-surface p-4 text-sm leading-7 text-muted">공식 문의 채널을 준비 중입니다. 수신 가능한 기업 이메일 또는 전화번호가 확인되면 이곳에 게시합니다.</p>}
+    </div>
+  </section>
+</BaseLayout>

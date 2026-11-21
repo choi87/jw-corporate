@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+const areas = [
+  { n: '01', en: 'Software & Applications', ko: '소프트웨어 및 애플리케이션', body: '웹·모바일 기반 응용 소프트웨어의 사용자 요구, 인터페이스, 기능 설계 및 구현을 추진하는 분야입니다.', items: ['웹·모바일 애플리케이션', '사용자 경험 설계', '소프트웨어 프로토타이핑'] },
+  { n: '02', en: 'AI & Automation', ko: 'AI 및 업무 자동화', body: '인공지능 기술의 활용 가능성을 검토하고 반복 업무를 줄일 수 있는 자동화 구조를 연구하는 분야입니다.', items: ['AI 기술 활용 검토', '업무 흐름 자동화', '디지털 운영 효율화'] },
+  { n: '03', en: 'E-Commerce', ko: '전자상거래', body: '온라인 상품·서비스 유통에서 필요한 정보 구조와 관리 방식, 운영 효율 개선을 검토하는 분야입니다.', items: ['온라인 유통 환경', '상품·거래 정보 관리', '판매 운영 프로세스'] },
+  { n: '04', en: 'Digital Platforms', ko: '디지털 플랫폼', body: '참여자와 서비스의 상호작용을 지원하는 디지털 플랫폼의 기획 및 시스템 구조를 다루는 분야입니다.', items: ['플랫폼 기획', '서비스 운영 구조', '확장형 시스템 설계'] },
+];
+---
+<BaseLayout title="BUSINESS">
+  <PageHero eyebrow="BUSINESS AREAS" title="다양한 디지털 사업 분야를 탐구합니다" subtitle="아래 내용은 회사의 사업 방향과 검토·개발 분야를 안내합니다. 특정 서비스의 출시나 사업 실적을 의미하지 않습니다." />
+  <section class="container-jw grid gap-5 py-18 md:grid-cols-2 md:py-25">{areas.map(a => <article class="card-panel p-7 md:p-9"><p class="eyebrow mb-6">{a.n} / JW BUSINESS</p><h2 class="text-2xl font-bold tracking-tight text-navy-950">{a.en}</h2><h3 class="mt-1 text-base font-semibold text-ink">{a.ko}</h3><p class="mt-6 text-sm leading-8 text-muted">{a.body}</p><ul class="mt-7 space-y-3 border-t border-line pt-6">{a.items.map(item => <li class="flex items-center gap-3 text-sm text-ink"><span class="h-1.5 w-1.5 rounded-full bg-blue-600" aria-hidden="true"></span>{item}</li>)}</ul></article>)}</section>
+</BaseLayout>
