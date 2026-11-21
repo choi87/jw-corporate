@@ -5,7 +5,7 @@ export type Project = {
   name: string;
   description: string;
   businessArea: string;
-  status: ProjectStatus;
+  status?: ProjectStatus;
   image: string;
   externalLink: string;
   isPublic: boolean;
