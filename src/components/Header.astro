@@ -37,7 +37,7 @@ const languages = [
         {languages.map(({ code, label }) => (
           <button type="button" data-site-language={code} lang={code} aria-current={code === 'ko' ? 'true' : undefined} class="relative block w-full rounded-lg px-3 py-2 text-left text-sm font-semibold text-navy-950 hover:bg-surface focus-visible:outline-2 focus-visible:outline-blue-700 aria-[current=true]:bg-blue-50 aria-[current=true]:text-blue-700">{label}</button>
         ))}
-        <div id="site-translation-provider" class="px-2 empty:hidden"></div>
+        <p id="site-translation-status" class="relative px-3 py-2 text-xs text-muted" role="status" hidden></p>
       </div>
     </details>
     <details class="group relative lg:hidden">
@@ -49,72 +49,38 @@ const languages = [
     </div>
   </div>
 </header>
+<div id="site-translation-provider" hidden aria-hidden="true" inert></div>
 
 <script is:inline>
   (() => {
     const menu = document.getElementById('site-languages');
     const provider = document.getElementById('site-translation-provider');
-    const buttons = Array.from(menu.querySelectorAll('[data-site-language]'));
+    const status = document.getElementById('site-translation-status');
+    const buttons = [...menu.querySelectorAll('[data-site-language]')];
     const supported = new Set(buttons.map((button) => button.dataset.siteLanguage));
-    const preferenceKey = 'jw-site-language';
-    let currentLanguage = 'ko';
-    try {
-      const savedLanguage = localStorage.getItem(preferenceKey);
-      if (supported.has(savedLanguage)) currentLanguage = savedLanguage;
-    } catch {}
+    const key = 'jw-site-language';
+    const url = new URL(location.href);
+    const requested = url.searchParams.get('lang');
+    let saved;
+    try { saved = localStorage.getItem(key); } catch {}
+    const language = supported.has(requested) ? requested : supported.has(saved) ? saved : 'ko';
 
-    function updateSelection() {
-      buttons.forEach((button) => {
-        if (button.dataset.siteLanguage === currentLanguage) button.setAttribute('aria-current', 'true');
-        else button.removeAttribute('aria-current');
-      });
+    // Remove preferences used by the previous widget, including parent-domain cookies.
+    for (const domain of ['', '; Domain=' + location.hostname, '; Domain=jwcorp.net']) {
+      document.cookie = 'googtrans=; Max-Age=0; Path=/; SameSite=Lax' + domain;
     }
 
-    function setTranslationCookie(language) {
-      const value = language === 'ko'
-        ? 'googtrans=; Max-Age=0'
-        : 'googtrans=/ko/' + language + '; Max-Age=31536000';
-      document.cookie = value + '; Path=/; SameSite=Lax';
-    }
-
-    function loadTranslation() {
-      setTranslationCookie(currentLanguage);
-      document.documentElement.classList.add('jw-translated');
-      window.jwInitializeTranslation = () => {
-        new window.google.translate.TranslateElement({
-          pageLanguage: 'ko',
-          includedLanguages: 'en,zh-CN,zh-TW,th,ja',
-          autoDisplay: false,
-          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
-        }, provider.id);
-      };
-      const script = document.createElement('script');
-      script.src = 'https://translate.google.com/translate_a/element.js?cb=jwInitializeTranslation';
-      script.async = true;
-      script.addEventListener('error', () => {
-        const link = document.createElement('a');
-        const url = new URL('https://translate.google.com/translate');
-        url.search = new URLSearchParams({ sl: 'ko', tl: currentLanguage, u: location.href }).toString();
-        link.href = url.href;
-        link.className = 'block rounded-lg px-1 py-2 text-xs font-semibold text-blue-700 underline';
-        link.textContent = 'Open translated page';
-        provider.replaceChildren(link);
-        menu.open = true;
-      });
-      document.head.append(script);
-    }
+    const selectLanguage = (code) => {
+      try { localStorage.setItem(key, code); } catch {}
+      if (code === 'ko') url.searchParams.delete('lang');
+      else url.searchParams.set('lang', code);
+      if (url.href === location.href) location.reload();
+      else location.assign(url.href);
+    };
 
     menu.addEventListener('click', (event) => {
-      const button = event.target.closest('[data-site-language]');
-      if (!button) return;
-      const language = button.dataset.siteLanguage;
-      if (language === currentLanguage) {
-        menu.open = false;
-        return;
-      }
-      try { localStorage.setItem(preferenceKey, language); } catch {}
-      setTranslationCookie(language);
-      location.reload();
+      const option = event.target.closest('[data-site-language]');
+      if (option) selectLanguage(option.dataset.siteLanguage);
     });
     document.addEventListener('click', (event) => {
       if (!menu.contains(event.target)) menu.open = false;
@@ -126,19 +92,81 @@ const languages = [
       }
     });
 
-    updateSelection();
-    if (currentLanguage !== 'ko') loadTranslation();
+    function markLanguage(code) {
+      for (const button of buttons) {
+        if (button.dataset.siteLanguage === code) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      }
+    }
+
+    if (language === 'ko') return;
+    document.documentElement.classList.add('jw-translated');
+    status.hidden = false;
+    status.textContent = '번역 중… / Translating…';
+
+    function showFailure() {
+      status.hidden = false;
+      status.textContent = '번역을 불러오지 못했습니다. 다시 선택해 주세요. / Translation unavailable. Please try again.';
+      menu.open = true;
+    }
+
+    const timeout = setTimeout(showFailure, 12000);
+    const translated = new MutationObserver(() => {
+      const root = document.documentElement;
+      if (!root.matches('.translated-ltr, .translated-rtl')) return;
+      clearTimeout(timeout);
+      status.hidden = true;
+      markLanguage(language);
+      root.lang = language;
+      translated.disconnect();
+    });
+    translated.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    window.jwInitializeTranslation = () => {
+      try {
+        const applyLanguage = () => {
+          const select = provider.querySelector('select.goog-te-combo');
+          if (!select || ![...select.options].some((option) => option.value === language)) return false;
+          select.value = language;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          return true;
+        };
+        const controls = new MutationObserver(() => {
+          if (applyLanguage()) controls.disconnect();
+        });
+        controls.observe(provider, { childList: true, subtree: true });
+        setTimeout(() => controls.disconnect(), 12000);
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'ko',
+          includedLanguages: 'en,zh-CN,zh-TW,th,ja',
+          autoDisplay: false
+        }, provider.id);
+        if (applyLanguage()) controls.disconnect();
+      } catch {
+        clearTimeout(timeout);
+        showFailure();
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=jwInitializeTranslation';
+    script.async = true;
+    script.addEventListener('error', () => {
+      clearTimeout(timeout);
+      showFailure();
+    });
+    document.head.append(script);
   })();
 </script>
 
 <style is:global>
-  html.jw-translated body {
-    top: 0 !important;
-  }
-
+  #site-translation-provider[hidden],
   html.jw-translated iframe.goog-te-banner-frame,
   html.jw-translated iframe.skiptranslate,
   html.jw-translated body > .skiptranslate:has(iframe) {
     display: none !important;
+  }
+
+  html.jw-translated body {
+    top: 0 !important;
   }
 </style>
