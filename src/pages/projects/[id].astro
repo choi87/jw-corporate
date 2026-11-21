@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { publicProjects, statusLabel, type Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return publicProjects.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+interface Props { project: Project }
+const { project } = Astro.props;
+---
+<BaseLayout title={project.name} description={project.description}>
+  <PageHero eyebrow={project.businessArea} title={project.name} subtitle={project.description} />
+  <section class="container-jw py-14 md:py-20">
+    <a href="/projects/" class="text-sm font-bold text-blue-700 underline-offset-4 hover:underline">← 프로젝트 목록</a>
+    {project.status && (
+      <dl class="mt-8">
+        <dt class="text-sm font-semibold text-muted">진행 상태</dt>
+        <dd class="mt-2 text-lg font-bold text-navy-950">{statusLabel[project.status]}</dd>
+      </dl>
+    )}
+    {project.externalLink && project.status === 'released' && (
+      <a href={project.externalLink} class="mt-8 inline-block font-bold text-blue-700 hover:underline">프로그램 사이트 방문 ↗</a>
+    )}
+  </section>
+</BaseLayout>
