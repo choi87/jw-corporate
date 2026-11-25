@@ -14,7 +14,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     id: 'poker-ev-trainer',
-    name: '포커 EV 교육 시뮬레이션',
+    name: '홀덤 트레이너',
     description: '포커 상황별 선택지와 기대값(EV)을 비교하며 의사결정 원리를 익히는 교육용 애플리케이션입니다. 실제 금전 거래 기능은 제공하지 않습니다.',
     businessArea: 'Software & Applications',
     status: 'completed',

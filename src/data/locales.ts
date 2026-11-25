@@ -10,6 +10,7 @@ export const languages = [
 export type Locale = typeof languages[number]['code'];
 
 const messages: Record<string, readonly string[]> = {
+  "홀덤 트레이너 소개": ["Explore Hold’em Trainer", "了解德州扑克训练器", "了解德州撲克訓練器", "รู้จักโฮลเด็มเทรนเนอร์", "ホールデムトレーナーの紹介"],
   "톡메이트 다운로드": ["Download Talkmate", "下载 Talkmate", "下載 Talkmate", "ดาวน์โหลด Talkmate", "Talkmateをダウンロード"],
   "소프트웨어 및 애플리케이션": [
     "Software and Applications",
@@ -263,13 +264,7 @@ const messages: Record<string, readonly string[]> = {
     "พฤศจิกายน",
     "11月"
   ],
-  "포커 EV 교육 시뮬레이션 개발 완료": [
-    "Completed development of the Poker EV Training Simulator",
-    "完成扑克期望值训练模拟器的开发",
-    "完成撲克期望值訓練模擬器開發",
-    "พัฒนาโปรแกรมฝึกมูลค่าคาดหวังในโป๊กเกอร์เสร็จสิ้น",
-    "ポーカー期待値トレーニングシミュレーターの開発完了"
-  ],
+  "홀덤 트레이너 개발 완료": ["Completed development of Hold'em Trainer","完成德州扑克训练器的开发","完成德州撲克訓練器開發","พัฒนาโฮลเด็มเทรนเนอร์เสร็จสิ้น","ホールデムトレーナーの開発完了"],
   "10월": [
     "October",
     "10月",
@@ -914,13 +909,7 @@ const messages: Record<string, readonly string[]> = {
     "ข้ามไปยังเนื้อหา",
     "本文へスキップ"
   ],
-  "포커 EV 교육 시뮬레이션": [
-    "Poker EV Training Simulator",
-    "扑克期望值训练模拟器",
-    "撲克期望值訓練模擬器",
-    "โปรแกรมฝึกคำนวณมูลค่าคาดหวังในโป๊กเกอร์",
-    "ポーカー期待値トレーニングシミュレーター"
-  ],
+  "홀덤 트레이너": ["Hold'em Trainer","德州扑克训练器","德州撲克訓練器","โฮลเด็มเทรนเนอร์","ホールデムトレーナー"],
   "포커 상황별 선택지와 기대값(EV)을 비교하며 의사결정 원리를 익히는 교육용 애플리케이션입니다. 실제 금전 거래 기능은 제공하지 않습니다.": [
     "An educational app for learning decision-making by comparing options and expected values (EV) in poker scenarios. It does not support real-money transactions.",
     "通过比较扑克情境中的不同选择及期望值（EV）来学习决策的教育应用。该应用不提供真实货币交易。",
