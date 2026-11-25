@@ -13,12 +13,12 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
   "border-b border-line md:py-24",
   backLink ? "py-14" : "py-17",
   theme === 'holdem'
-    ? "bg-linear-to-r from-[#f5fbf5] to-[#e0f0e4]"
+    ? "relative isolate overflow-hidden bg-linear-to-r from-[#f5fbf5] to-[#e0f0e4]"
     : illustration
     ? "relative isolate overflow-hidden bg-linear-to-r from-[#fbf8fe] to-[#efe5f9]"
     : "bg-surface",
 ]}>
-  <div class:list={["container-jw", illustration && "relative", theme === "holdem" && "grid items-center gap-8 lg:grid-cols-[1.2fr_1fr]"]}>
+  <div class:list={["container-jw", (illustration || theme === "holdem") && "relative"]}>
     {illustration && (
       <img
         src={illustration}
@@ -29,7 +29,7 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
         fetchpriority="high"
       />
     )}
-    <div>
+    <div class:list={[theme === "holdem" && "relative z-10"]}>
     {backLink && (
       <a href={backLink.href} class:list={["text-sm font-semibold underline-offset-4 hover:underline", theme === "holdem" ? "text-emerald-800" : "text-violet-800"]}>{backLink.label}</a>
     )}
@@ -46,6 +46,10 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
     ]}>{subtitle}</p>
     <slot name="actions" />
     </div>
-    <slot name="artwork" />
+    {theme === "holdem" && (
+      <div class="pointer-events-none absolute top-1/2 -right-12 w-64 -translate-y-1/2 opacity-25 blur-[0.6px] md:right-auto md:left-[clamp(12rem,23vw,21rem)] md:w-[27rem] md:opacity-40">
+        <slot name="artwork" />
+      </div>
+    )}
   </div>
 </section>
