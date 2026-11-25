@@ -4,18 +4,21 @@ interface Props {
   title: string;
   subtitle: string;
   illustration?: string;
+  theme?: 'holdem';
   backLink?: { href: string; label: string };
 }
-const { eyebrow, title, subtitle, illustration, backLink } = Astro.props;
+const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
 ---
 <section class:list={[
   "border-b border-line md:py-24",
   backLink ? "py-14" : "py-17",
-  illustration
+  theme === 'holdem'
+    ? "bg-linear-to-r from-[#f5fbf5] to-[#e0f0e4]"
+    : illustration
     ? "relative isolate overflow-hidden bg-linear-to-r from-[#fbf8fe] to-[#efe5f9]"
     : "bg-surface",
 ]}>
-  <div class:list={["container-jw", illustration && "relative"]}>
+  <div class:list={["container-jw", illustration && "relative", theme === "holdem" && "grid items-center gap-8 lg:grid-cols-[1.2fr_1fr]"]}>
     {illustration && (
       <img
         src={illustration}
@@ -26,10 +29,11 @@ const { eyebrow, title, subtitle, illustration, backLink } = Astro.props;
         fetchpriority="high"
       />
     )}
+    <div>
     {backLink && (
-      <a href={backLink.href} class="text-sm font-semibold text-violet-800 underline-offset-4 hover:underline">{backLink.label}</a>
+      <a href={backLink.href} class:list={["text-sm font-semibold underline-offset-4 hover:underline", theme === "holdem" ? "text-emerald-800" : "text-violet-800"]}>{backLink.label}</a>
     )}
-    <p class={backLink ? "mt-9 text-sm font-semibold text-violet-800" : "eyebrow mb-5"}>{eyebrow}</p>
+    <p class:list={backLink ? ["mt-9 text-sm font-semibold", theme === "holdem" ? "text-emerald-800" : "text-violet-800"] : "eyebrow mb-5"}>{eyebrow}</p>
     <h1 class:list={[
       "max-w-4xl text-4xl leading-tight tracking-[-.05em] text-navy-950 md:text-5xl",
       backLink ? "mt-3 font-black" : "font-extrabold",
@@ -41,5 +45,7 @@ const { eyebrow, title, subtitle, illustration, backLink } = Astro.props;
       illustration && "break-keep",
     ]}>{subtitle}</p>
     <slot name="actions" />
+    </div>
+    <slot name="artwork" />
   </div>
 </section>

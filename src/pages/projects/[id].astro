@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import HoldemArtwork from '../../components/HoldemArtwork.astro';
 import PageHero from '../../components/PageHero.astro';
 import { publicProjects, statusLabel, type Project } from '../../data/projects';
 import { pageLocale } from '../../data/locales';
@@ -13,7 +14,7 @@ export function getStaticPaths() {
 }
 
 const details: Record<string, string[]> = {
-  "poker-ev-trainer": [
+  "holdem-trainer": [
     t("상황별 선택지"),
     t("테이블 인원, 포지션, 스택과 팟 크기, 상대의 이전 행동을 보고 다음 행동을 고릅니다."),
     t("기대값 비교"),
@@ -123,11 +124,15 @@ const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? 
     eyebrow={t(project.businessArea)}
     title={t(project.name)}
     subtitle={t(project.description)}
+    theme={project.id === 'holdem-trainer' ? 'holdem' : undefined}
     illustration={project.id === 'ai-reply-scheduler' ? '/images/ai-reply-messenger.webp' : undefined}
-    backLink={project.id === 'ai-reply-scheduler' ? { href: href("/projects/#automation"), label: t("← 프로젝트 목록") } : undefined}
+    backLink={project.id === 'ai-reply-scheduler' ? { href: href("/projects/#automation"), label: t("← 프로젝트 목록") } : project.id === 'holdem-trainer' ? { href: href("/projects/#software"), label: t("← 프로젝트 목록") } : undefined}
   >
+    <Fragment slot="artwork">
+      {project.id === 'holdem-trainer' && <HoldemArtwork />}
+    </Fragment>
     <Fragment slot="actions">
-      {project.id === 'poker-ev-trainer' && (
+      {project.id === 'holdem-trainer' && (
         <a href="/holdem-trainer/" class="mt-8 inline-flex items-center gap-3 rounded-lg bg-emerald-800 px-6 py-3.5 text-sm font-extrabold text-white transition hover:bg-emerald-900">
           {t("홀덤 트레이너 소개")} <span aria-hidden="true">↗</span>
         </a>
@@ -140,11 +145,11 @@ const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? 
     </Fragment>
   </PageHero>
   <section class="container-jw py-14 md:py-20">
-    {project.id !== 'ai-reply-scheduler' && (
+    {project.id !== 'ai-reply-scheduler' && project.id !== 'holdem-trainer' && (
       <a href={href("/projects/")} class="text-sm font-bold text-blue-700 underline-offset-4 hover:underline">{t("← 프로젝트 목록")}</a>
     )}
     {project.status && (
-      <dl class:list={[project.id !== 'ai-reply-scheduler' && "mt-8"]}>
+      <dl class:list={[project.id !== 'ai-reply-scheduler' && project.id !== 'holdem-trainer' && "mt-8"]}>
         <dt class="text-sm font-semibold text-muted">{t("진행 상태")}</dt>
         <dd class="mt-2 text-lg font-bold text-navy-950">{t(statusLabel[project.status])}</dd>
       </dl>
