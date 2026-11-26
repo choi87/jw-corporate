@@ -68,6 +68,14 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
     mask-image: linear-gradient(to right, transparent, #000 47%), linear-gradient(to bottom, #000 72%, transparent);
     mask-composite: intersect;
   }
+  @media (min-width: 1024px) {
+    .companion-art {
+      left: auto;
+      right: 0;
+      width: min(45%, 36rem);
+    }
+  }
+
   @media (max-width: 767px) {
     .companion-art {
       left: auto;
