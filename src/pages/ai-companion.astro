@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 const art = '/images/ai-companion';
-const title = 'AI Companion · AI 캐릭터 육성 비서';
+const title = 'AI 캐릭터 육성 비서';
 const description = '스마트폰에서 대화하고 함께 성장하는 AI 캐릭터 육성 비서의 개발 계획. 로컬 AI와 기본 육성부터 인형집, 맞춤 추천과 영어 학습 확장까지 소개합니다.';
 const canonical = 'https://jwcorp.net/ai-companion/';
 const phases = [
@@ -34,8 +34,8 @@ const chapters = [
   <div class="companion">
     <header class="brand-bar">
       <div class="container-jw">
-        <a class="wordmark" href="#main"><span aria-hidden="true">✦</span> AI Companion</a>
-        <nav aria-label="AI Companion 메뉴">{chapters.map(([id,label]) => <a href={'#' + id}>{label}</a>)}</nav>
+        <a class="wordmark" href="#main"><span aria-hidden="true">✦</span> {title}</a>
+        <nav aria-label={`${title} 메뉴`}>{chapters.map(([id,label]) => <a href={'#' + id}>{label}</a>)}</nav>
       </div>
     </header>
     <main id="main">
@@ -43,7 +43,7 @@ const chapters = [
       <img class="hero-art" src={art + '/evening.webp'} width="1720" height="860" fetchpriority="high" alt="저녁 창가에서 작은 빛의 영혼을 손 위에 띄운 은빛 머리 AI 캐릭터 콘셉트" />
       <div class="container-jw hero-content">
         <p class="status"><span></span> 개발 예정</p>
-        <p class="project-name">AI 캐릭터 육성 비서 <small>(가칭)</small></p>
+        <p class="project-name">{title} <small>(가칭)</small></p>
         <h1 id="intro">당신을 이해하고,<br/>함께 성장하는 AI.</h1>
         <p class="lead">내일의 약속을 챙기고, 오늘 나눈 이야기를 기억하는 친구. 스마트폰 속 작은 영혼이 나만의 AI 비서로 자라는 과정을 기획하고 있습니다.</p>
         <div class="actions"><a class="primary" href="#assistant">프로젝트 알아보기 <span aria-hidden="true">↓</span></a><a class="secondary" href="#roadmap">개발 로드맵</a></div>
@@ -85,7 +85,7 @@ const chapters = [
     </section>
     </main>
     <footer class="brand-footer"><div class="container-jw">
-      <p class="wordmark"><span aria-hidden="true">✦</span> AI Companion</p>
+      <p class="wordmark"><span aria-hidden="true">✦</span> {title}</p>
     </div></footer>
   </div>
 </body>
