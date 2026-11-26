@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import { company } from '../config/company';
 
 const downloadUrl = import.meta.env.PUBLIC_TALKMATE_DOWNLOAD_URL?.trim() ||
   'https://github.com/choi87/jw-corporate/releases/download/talkmate-v2.0.41/talkmate-android-v2.0.41-debug.apk';
@@ -151,9 +150,6 @@ const features = [
       </section>
     </main>
 
-    <footer class="mx-auto flex max-w-6xl flex-wrap justify-between gap-3 px-6 py-7 text-sm text-violet-200">
-      <span>© {new Date().getFullYear()} {company.legalName}</span>
-    </footer>
   </body>
 </html>
 
