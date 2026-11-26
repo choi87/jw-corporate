@@ -18,7 +18,7 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
     ? "relative isolate overflow-hidden bg-linear-to-r from-[#fbf8fe] to-[#efe5f9]"
     : "bg-surface",
 ]}>
-  <div class:list={["container-jw", (illustration || theme === "holdem") && "relative"]}>
+  <div class:list={["container-jw", (illustration || theme === "holdem") && "relative", theme === "holdem" && "lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center lg:gap-10 lg:pr-8"]}>
     {illustration && (
       <img
         src={illustration}
@@ -47,7 +47,7 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
     <slot name="actions" />
     </div>
     {theme === "holdem" && (
-      <div class="pointer-events-none absolute top-1/2 -right-12 w-64 -translate-y-1/2 opacity-25 blur-[0.6px] md:right-auto md:left-[clamp(12rem,23vw,21rem)] md:w-[27rem] md:opacity-40">
+      <div class="pointer-events-none absolute top-1/2 -right-12 w-64 -translate-y-1/2 opacity-25 blur-[0.6px] md:right-auto md:left-[clamp(12rem,23vw,21rem)] md:w-[27rem] md:opacity-40 lg:static lg:w-full lg:max-w-[27rem] lg:translate-y-0 lg:justify-self-center">
         <slot name="artwork" />
       </div>
     )}
