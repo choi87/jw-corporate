@@ -1,6 +1,9 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../styles/global.css';
 const art = '/images/ai-companion';
+const title = 'AI Companion · AI 캐릭터 육성 비서';
+const description = '스마트폰에서 대화하고 함께 성장하는 AI 캐릭터 육성 비서의 개발 계획. 로컬 AI와 기본 육성부터 인형집, 맞춤 추천과 영어 학습 확장까지 소개합니다.';
+const canonical = 'https://jwcorp.net/ai-companion/';
 const phases = [
   { when: '2026년 12월 목표', title: '로컬 AI와 기본 육성', copy: 'Android 기기에서 작동하는 AI 비서와 기본 육성은 무료로 제공할 계획입니다. 특별 복장과 스킨 등 꾸미기 상품에만 부분 유료화를 적용할 예정입니다.' },
   { when: '2027년 1~4월 목표', title: '공동생활과 학습', copy: '인형집과 아르바이트를 추가하고, 외부 AI를 이용한 맞춤 추천과 영어 학습 DLC를 개발할 계획입니다. 온라인 AI에는 무료 이용 한도와 선택형 구독을 검토합니다.' },
@@ -10,12 +13,36 @@ const chapters = [
   ['assistant','AI 비서'], ['growth','캐릭터 성장'], ['life','공동생활'], ['roadmap','개발 로드맵'],
 ];
 ---
-<BaseLayout title="AI 캐릭터 육성 비서(가칭) · 개발 예정" description="스마트폰에서 대화하고 함께 성장하는 AI 캐릭터 육성 비서의 개발 계획. 로컬 AI와 기본 육성부터 인형집, 맞춤 추천과 영어 학습 확장까지 소개합니다." canonicalUrl="https://jwcorp.net/projects/ai-companion/" shareImage={art + '/evening.webp'} untranslatedFallback="/projects/">
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101426" />
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={new URL(art + '/evening.webp', canonical).href} />
+  <title>{title}</title>
+</head>
+<body>
+  <a class="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:bg-white focus:p-3" href="#main">본문 바로가기</a>
   <div class="companion">
+    <header class="brand-bar">
+      <div class="container-jw">
+        <a class="wordmark" href="#main"><span aria-hidden="true">✦</span> AI Companion</a>
+        <nav aria-label="AI Companion 메뉴">{chapters.map(([id,label]) => <a href={'#' + id}>{label}</a>)}</nav>
+        <a class="brand-return" href="/projects/ai-companion/">JW 프로젝트 <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <main id="main">
     <section class="hero" aria-labelledby="intro">
       <img class="hero-art" src={art + '/evening.webp'} width="1720" height="860" fetchpriority="high" alt="저녁 창가에서 작은 빛의 영혼을 손 위에 띄운 은빛 머리 AI 캐릭터 콘셉트" />
       <div class="container-jw hero-content">
-        <a class="back" href="/projects/">← 프로젝트 목록</a>
         <p class="status"><span></span> 개발 예정</p>
         <p class="project-name">AI 캐릭터 육성 비서 <small>(가칭)</small></p>
         <h1 id="intro">당신을 이해하고,<br/>함께 성장하는 AI.</h1>
@@ -24,7 +51,6 @@ const chapters = [
       </div>
       <small class="art-note">대표 캐릭터 콘셉트 아트</small>
     </section>
-    <nav class="chapters" aria-label="소개 페이지 목차"><div class="container-jw">{chapters.map(([id,label]) => <a href={'#' + id}>{label}</a>)}</div></nav>
     <section id="assistant" class="container-jw chapter">
       <p class="kicker">1단계 계획 · 개인 AI 비서</p>
       <h2>하루의 작은 약속부터.</h2>
@@ -58,18 +84,23 @@ const chapters = [
       <ol class="phases">{phases.map((phase,i) => <li><div><b>{i+1}단계</b><small>{phase.when}</small></div><h3>{phase.title}</h3><p>{phase.copy}</p></li>)}</ol>
       <div class="closing"><div><p class="kicker">Android · Google Play 출시 예정</p><h3>첫 만남을 준비하고 있습니다.</h3></div><a class="secondary" href="/">JW 공식 홈페이지 <span aria-hidden="true">↗</span></a></div>
     </section>
+    </main>
+    <footer class="brand-footer"><div class="container-jw">
+      <p class="wordmark"><span aria-hidden="true">✦</span> AI Companion</p>
+      <a class="brand-return" href="/projects/ai-companion/">JW 프로젝트 설명으로 돌아가기 <span aria-hidden="true">↗</span></a>
+    </div></footer>
   </div>
-</BaseLayout>
+</body>
+</html>
 <style>
   .companion { background:#101426; color:#f5f5ff; word-break:keep-all; overflow-wrap:break-word; }
   .hero { position:relative; isolation:isolate; background:#151a30; }
   .hero-art { position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover; object-position:50% 43%; }
   .hero::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#101426ed 0%,#101426b3 36%,transparent 64%); z-index:-1; }
   .hero-content { padding-block:clamp(28px,4vw,60px) clamp(55px,7vw,110px); }
-  .back,.art-note,figcaption,.screen small,.phases small,.kicker,.status { font-size:.875rem; }
-  .back,.secondary { color:#eef0ff; }
-  .back:hover,.chapters a:hover { text-decoration:underline; text-underline-offset:5px; }
-  .status { margin:clamp(40px,6vw,92px) 0 12px; display:flex; align-items:center; gap:.6rem; font-weight:700; color:#d8ceff; }
+  .art-note,figcaption,.screen small,.phases small,.kicker,.status { font-size:.875rem; }
+  .secondary { color:#eef0ff; }
+  .status { margin:clamp(24px,4vw,64px) 0 12px; display:flex; align-items:center; gap:.6rem; font-weight:700; color:#d8ceff; }
   .status span { width:8px; height:8px; border-radius:50%; background:#baacff; }
   .project-name { font-weight:650; color:#e4e3ff; }
   .project-name small { font-weight:400; }
@@ -83,9 +114,16 @@ const chapters = [
   .secondary { border:1px solid #a7a7bc; background:#161a30ad; }
   .primary:hover { background:white; } .secondary:hover { background:#383750; }
   .art-note { position:absolute; bottom:12px; right:20px; background:#15192bc9; color:white; border-radius:4px; padding:3px 8px; }
-  .chapters { border-bottom:1px solid #36394f; background:#191d32; }
-  .chapters div { display:flex; flex-wrap:wrap; gap:0 clamp(16px,5vw,72px); }
-  .chapters a { display:inline-flex; align-items:center; min-height:48px; color:#e0ddf3; font-size:.95rem; font-weight:650; }
+  .brand-bar { position:sticky; top:0; z-index:10; border-bottom:1px solid #36394f; background:#15182cef; backdrop-filter:blur(12px); }
+  .brand-bar .container-jw,.brand-footer .container-jw { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .wordmark { display:inline-flex; align-items:center; gap:.55rem; white-space:nowrap; font-weight:760; letter-spacing:-.035em; font-size:1.2rem; }
+  .wordmark span { color:#c7b8ff; font-size:1.55rem; }
+  .brand-bar nav { display:flex; gap:clamp(14px,3vw,44px); }
+  .brand-bar a { display:inline-flex; align-items:center; min-height:64px; }
+  .brand-bar nav a,.brand-return { color:#dedaf4; font-size:.875rem; font-weight:650; }
+  .brand-return span { margin-left:5px; color:#baaafa; }
+  .brand-bar a:hover,.brand-footer a:hover { text-decoration:underline; text-underline-offset:5px; }
+  .brand-footer { border-top:1px solid #36394f; padding-block:22px; }
   .chapter { padding-block:clamp(54px,7vw,96px); }
   section[id] { scroll-margin-top:76px; }
   .kicker { color:#bcb0ff; font-weight:700; margin-bottom:10px; }
@@ -131,8 +169,16 @@ const chapters = [
     .phases li { grid-template-columns:1fr 2fr; gap:12px; } .phases li p { grid-column:1/-1; } .closing { align-items:flex-start; flex-direction:column; }
   }
   @media (max-width:480px) {
-    .hero-art { aspect-ratio:1.55; object-position:right 40%; } .chapters div { gap:0; justify-content:space-between; } .chapters a { font-size:.875rem; }
+    .hero-art { aspect-ratio:1.55; object-position:right 40%; }
     .progression ol { font-size:.78rem; } .phases li { grid-template-columns:1fr; }
+  }
+  @media (max-width:720px) {
+    .brand-bar .container-jw { flex-wrap:wrap; row-gap:0; }
+    .brand-bar a { min-height:46px; }
+    .brand-bar nav { order:1; width:100%; justify-content:space-between; gap:8px; }
+    .brand-bar nav a { font-size:.8125rem; }
+    .brand-footer .container-jw { flex-wrap:wrap; }
+    section[id],#main { scroll-margin-top:104px; }
   }
   @media (prefers-reduced-motion:reduce) { :global(html:has(.companion)) { scroll-behavior:auto; } }
 </style>

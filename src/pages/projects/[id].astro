@@ -67,11 +67,19 @@ const details: Record<string, string[]> = {
     t("반복해서 들어오는 문의에 AI가 자동으로 답하도록 설정합니다."),
     t("예약전송"),
     t("안내 메시지를 준비하고 날짜와 시간을 지정해 발송을 예약합니다.")
+  ],
+  "ai-companion": [
+    t("스마트폰에서 작동하는 AI 비서"),
+    t("로컬 AI 대화와 일정 관리, 기본 캐릭터 육성을 준비하고 있습니다. 특별 복장과 스킨은 선택형 유료 상품으로 계획합니다."),
+    t("공동생활과 학습으로 확장"),
+    t("인형집과 아르바이트, 외부 AI 맞춤 추천과 영어 학습 DLC를 후속 단계로 계획합니다.")
   ]
 };
 
 interface Props { project: Project }
 const { project } = Astro.props;
+const isCompanion = project.id === 'ai-companion';
+const backSection = project.id === 'holdem-trainer' ? 'software' : project.id === 'ai-reply-scheduler' || isCompanion ? 'automation' : undefined;
 const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? [];
 ---
 <BaseLayout title={t(project.name)} description={t(project.description)}>
@@ -125,13 +133,18 @@ const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? 
     title={t(project.name)}
     subtitle={t(project.description)}
     theme={project.id === 'holdem-trainer' ? 'holdem' : undefined}
-    illustration={project.id === 'ai-reply-scheduler' ? '/images/ai-reply-messenger.webp' : undefined}
-    backLink={project.id === 'ai-reply-scheduler' ? { href: href("/projects/#automation"), label: t("← 프로젝트 목록") } : project.id === 'holdem-trainer' ? { href: href("/projects/#software"), label: t("← 프로젝트 목록") } : undefined}
+    illustration={isCompanion ? '/images/ai-companion/portrait.webp' : project.id === 'ai-reply-scheduler' ? '/images/ai-reply-messenger.webp' : undefined}
+    backLink={backSection ? { href: href(`/projects/#${backSection}`), label: t("← 프로젝트 목록") } : undefined}
   >
     <Fragment slot="artwork">
       {project.id === 'holdem-trainer' && <HoldemArtwork />}
     </Fragment>
     <Fragment slot="actions">
+      {isCompanion && (
+        <a href="/ai-companion/" class="mt-8 inline-flex items-center gap-3 rounded-lg bg-violet-700 px-6 py-3.5 text-sm font-extrabold text-white transition hover:bg-violet-800">
+          {t("AI 비서 소개 사이트")} <span aria-hidden="true">→</span>
+        </a>
+      )}
       {project.id === 'holdem-trainer' && (
         <a href="/holdem-trainer/" class="mt-8 inline-flex items-center gap-3 rounded-lg bg-emerald-800 px-6 py-3.5 text-sm font-extrabold text-white transition hover:bg-emerald-900">
           {t("홀덤 트레이너 소개")} <span aria-hidden="true">↗</span>
@@ -145,11 +158,11 @@ const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? 
     </Fragment>
   </PageHero>
   <section class="container-jw py-14 md:py-20">
-    {project.id !== 'ai-reply-scheduler' && project.id !== 'holdem-trainer' && (
+    {!backSection && (
       <a href={href("/projects/")} class="text-sm font-bold text-blue-700 underline-offset-4 hover:underline">{t("← 프로젝트 목록")}</a>
     )}
     {project.status && (
-      <dl class:list={[project.id !== 'ai-reply-scheduler' && project.id !== 'holdem-trainer' && "mt-8"]}>
+      <dl class:list={[!backSection && "mt-8"]}>
         <dt class="text-sm font-semibold text-muted">{t("진행 상태")}</dt>
         <dd class="mt-2 text-lg font-bold text-navy-950">{t(statusLabel[project.status])}</dd>
       </dl>

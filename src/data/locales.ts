@@ -10,6 +10,14 @@ export const languages = [
 export type Locale = typeof languages[number]['code'];
 
 const messages: Record<string, readonly string[]> = {
+  "개발 예정": ["Development planned", "计划开发", "計畫開發", "อยู่ในแผนการพัฒนา", "開発予定"],
+  "AI 캐릭터 육성 비서": ["AI Character Companion", "AI 养成助手", "AI 養成助理", "ผู้ช่วย AI ที่เติบโตไปกับคุณ", "AIキャラクター育成アシスタント"],
+  "스마트폰에서 대화와 일정 관리를 돕고, 함께한 경험에 따라 캐릭터가 성장하는 개인 AI 비서를 기획하고 있습니다.": ["We’re planning a personal AI assistant that chats with you, helps manage your schedule, and grows through shared experiences.", "我们计划开发一款能在手机上陪你聊天、管理日程，并随着共同体验成长的个人 AI 助手。", "我們計畫開發一款能在手機上陪你聊天、管理行程，並隨著共同體驗成長的個人 AI 助理。", "เรากำลังวางแผนพัฒนาผู้ช่วย AI บนมือถือที่พูดคุย ช่วยจัดตาราง และเติบโตผ่านประสบการณ์ร่วมกับคุณ", "スマートフォンで会話や予定管理をサポートし、一緒に過ごした経験を通じて成長するパーソナルAIアシスタントを企画しています。"],
+  "스마트폰에서 작동하는 AI 비서": ["AI on your phone", "在手机上运行的 AI 助手", "在手機上運作的 AI 助理", "ผู้ช่วย AI ที่ทำงานบนมือถือ", "スマートフォンで動くAIアシスタント"],
+  "로컬 AI 대화와 일정 관리, 기본 캐릭터 육성을 준비하고 있습니다. 특별 복장과 스킨은 선택형 유료 상품으로 계획합니다.": ["We’re planning on-device chat, scheduling, and basic character growth. Special outfits and skins are planned as optional purchases.", "计划提供本地 AI 对话、日程管理和基础养成。特别服装与皮肤将作为可选付费商品。", "計畫提供本機 AI 對話、行程管理與基礎養成。特別服裝與造型將作為可選付費商品。", "เราวางแผนให้มีแชต AI บนอุปกรณ์ การจัดตาราง และการเลี้ยงตัวละครเบื้องต้น พร้อมชุดพิเศษและสกินให้เลือกซื้อ", "端末内AIとの会話、予定管理、基本的なキャラクター育成を準備しています。特別な衣装やスキンは任意購入を予定しています。"],
+  "공동생활과 학습으로 확장": ["Shared living and learning", "共同生活与学习", "共同生活與學習", "ต่อยอดสู่การใช้ชีวิตและเรียนรู้ร่วมกัน", "共同生活と学習への拡張"],
+  "인형집과 아르바이트, 외부 AI 맞춤 추천과 영어 학습 DLC를 후속 단계로 계획합니다.": ["Later plans include a shared dollhouse, part-time jobs, personalized recommendations from external AI, and English-learning DLC.", "后续计划包括娃娃屋、兼职、由外部 AI 提供的个性化推荐和英语学习 DLC。", "後續計畫包括娃娃屋、打工、由外部 AI 提供的個人化推薦與英語學習 DLC。", "ระยะถัดไปมีแผนเพิ่มบ้านตุ๊กตา งานพาร์ตไทม์ คำแนะนำเฉพาะบุคคลจาก AI ภายนอก และ DLC เรียนภาษาอังกฤษ", "後続段階ではドールハウスやアルバイト、外部AIによるおすすめ、英語学習DLCを予定しています。"],
+  "AI 비서 소개 사이트": ["Explore AI Companion (Korean)", "访问 AI 助手介绍站点（韩语）", "前往 AI 助理介紹網站（韓語）", "เว็บไซต์แนะนำผู้ช่วย AI (ภาษาเกาหลี)", "AIアシスタント紹介サイト（韓国語）"],
   "홀덤 트레이너 소개": ["Explore Hold’em Trainer", "了解德州扑克训练器", "了解德州撲克訓練器", "รู้จักโฮลเด็มเทรนเนอร์", "ホールデムトレーナーの紹介"],
   "톡메이트 다운로드": ["Download Talkmate", "下载 Talkmate", "下載 Talkmate", "ดาวน์โหลด Talkmate", "Talkmateをダウンロード"],
   "소프트웨어 및 애플리케이션": [

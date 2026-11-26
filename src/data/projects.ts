@@ -1,4 +1,4 @@
-export type ProjectStatus = 'planning' | 'development' | 'testing' | 'completed' | 'released';
+export type ProjectStatus = 'planning' | 'planned' | 'development' | 'testing' | 'completed' | 'released';
 
 export type Project = {
   id: string;
@@ -101,10 +101,21 @@ export const projects: Project[] = [
     externalLink: '',
     isPublic: true,
   },
+  {
+    id: 'ai-companion',
+    name: 'AI 캐릭터 육성 비서',
+    description: '스마트폰에서 대화와 일정 관리를 돕고, 함께한 경험에 따라 캐릭터가 성장하는 개인 AI 비서를 기획하고 있습니다.',
+    businessArea: 'AI & Automation',
+    status: 'planned',
+    image: '',
+    externalLink: '',
+    isPublic: true,
+  },
 ];
 
 export const statusLabel: Record<ProjectStatus, string> = {
   planning: '기획 중',
+  planned: '개발 예정',
   development: '개발 중',
   testing: '테스트 중',
   completed: '개발 완료',
