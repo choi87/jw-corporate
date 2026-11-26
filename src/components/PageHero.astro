@@ -18,7 +18,7 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
     ? "relative isolate overflow-hidden bg-linear-to-r from-[#fbf8fe] to-[#efe5f9]"
     : "bg-surface",
 ]}>
-  <div class:list={["container-jw", (illustration || theme === "holdem") && "relative", theme === "holdem" && "lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center lg:gap-10 lg:pr-8", theme === "companion" && "md:grid md:grid-cols-2 md:items-center md:gap-5"]}>
+  <div class:list={["container-jw", (illustration || theme) && "relative", theme === "holdem" && "lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center lg:gap-10 lg:pr-8"]}>
     {illustration && (
       <img
         src={illustration}
@@ -29,7 +29,7 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
         fetchpriority="high"
       />
     )}
-    <div class:list={[theme === "holdem" && "relative z-10"]}>
+    <div class:list={[theme && "relative z-10"]}>
     {backLink && (
       <a href={backLink.href} class:list={["text-sm font-semibold underline-offset-4 hover:underline", theme === "holdem" ? "text-emerald-800" : "text-violet-800"]}>{backLink.label}</a>
     )}
@@ -40,7 +40,8 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
       (illustration || theme === 'companion') && "break-keep wrap-anywhere",
     ]}>{title}</h1>
     <p class:list={[
-      "text-base leading-8 text-muted",
+      "text-base leading-8",
+      theme === 'companion' ? "text-ink" : "text-muted",
       backLink ? "mt-5 max-w-lg" : "mt-6 max-w-2xl",
       (illustration || theme === 'companion') && "break-keep",
     ]}>{subtitle}</p>
@@ -52,7 +53,7 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
       </div>
     )}
     {theme === "companion" && (
-      <div class="companion-art pointer-events-none mx-auto mt-5 w-full max-w-[24rem] md:mt-0 md:max-w-[31rem]">
+      <div class="companion-art pointer-events-none absolute top-1/2 -z-10 -translate-y-1/2" aria-hidden="true">
         <slot name="artwork" />
       </div>
     )}
@@ -60,7 +61,19 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
 </section>
 <style>
   .companion-art {
+    left: clamp(5rem, 9vw, 9rem);
+    width: min(67vw, 42rem);
+    opacity: .58;
     background: radial-gradient(ellipse at 58% 50%, #d8c6f9aa, transparent 68%);
-    mask-image: linear-gradient(to bottom, #000 74%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 47%), linear-gradient(to bottom, #000 72%, transparent);
+    mask-composite: intersect;
+  }
+  @media (max-width: 767px) {
+    .companion-art {
+      left: auto;
+      right: -3rem;
+      width: clamp(21rem, 90vw, 35rem);
+      opacity: .30;
+    }
   }
 </style>
