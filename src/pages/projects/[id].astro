@@ -132,12 +132,13 @@ const [firstTitle, firstBody, secondTitle, secondBody] = details[project.id] ?? 
     eyebrow={t(project.businessArea)}
     title={t(project.name)}
     subtitle={t(project.description)}
-    theme={project.id === 'holdem-trainer' ? 'holdem' : undefined}
-    illustration={isCompanion ? '/images/ai-companion/portrait.webp' : project.id === 'ai-reply-scheduler' ? '/images/ai-reply-messenger.webp' : undefined}
+    theme={isCompanion ? 'companion' : project.id === 'holdem-trainer' ? 'holdem' : undefined}
+    illustration={project.id === 'ai-reply-scheduler' ? '/images/ai-reply-messenger.webp' : undefined}
     backLink={backSection ? { href: href(`/projects/#${backSection}`), label: t("← 프로젝트 목록") } : undefined}
   >
     <Fragment slot="artwork">
       {project.id === 'holdem-trainer' && <HoldemArtwork />}
+      {isCompanion && <img src="/images/ai-companion/portrait-cutout.webp" alt="" width="1075" height="720" class="h-auto w-full" fetchpriority="high" />}
     </Fragment>
     <Fragment slot="actions">
       {isCompanion && (

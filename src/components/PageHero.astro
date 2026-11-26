@@ -4,21 +4,21 @@ interface Props {
   title: string;
   subtitle: string;
   illustration?: string;
-  theme?: 'holdem';
+  theme?: 'holdem' | 'companion';
   backLink?: { href: string; label: string };
 }
 const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
 ---
 <section class:list={[
   "border-b border-line md:py-24",
-  backLink ? "py-14" : "py-17",
+  theme === 'companion' ? "py-10" : backLink ? "py-14" : "py-17",
   theme === 'holdem'
     ? "relative isolate overflow-hidden bg-linear-to-r from-[#f5fbf5] to-[#e0f0e4]"
-    : illustration
+    : illustration || theme === 'companion'
     ? "relative isolate overflow-hidden bg-linear-to-r from-[#fbf8fe] to-[#efe5f9]"
     : "bg-surface",
 ]}>
-  <div class:list={["container-jw", (illustration || theme === "holdem") && "relative", theme === "holdem" && "lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center lg:gap-10 lg:pr-8"]}>
+  <div class:list={["container-jw", (illustration || theme === "holdem") && "relative", theme === "holdem" && "lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center lg:gap-10 lg:pr-8", theme === "companion" && "md:grid md:grid-cols-2 md:items-center md:gap-5"]}>
     {illustration && (
       <img
         src={illustration}
@@ -37,12 +37,12 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
     <h1 class:list={[
       "max-w-4xl text-4xl leading-tight tracking-[-.05em] text-navy-950 md:text-5xl",
       backLink ? "mt-3 font-black" : "font-extrabold",
-      illustration && "break-keep wrap-anywhere",
+      (illustration || theme === 'companion') && "break-keep wrap-anywhere",
     ]}>{title}</h1>
     <p class:list={[
       "text-base leading-8 text-muted",
       backLink ? "mt-5 max-w-lg" : "mt-6 max-w-2xl",
-      illustration && "break-keep",
+      (illustration || theme === 'companion') && "break-keep",
     ]}>{subtitle}</p>
     <slot name="actions" />
     </div>
@@ -51,5 +51,16 @@ const { eyebrow, title, subtitle, illustration, backLink, theme } = Astro.props;
         <slot name="artwork" />
       </div>
     )}
+    {theme === "companion" && (
+      <div class="companion-art pointer-events-none mx-auto mt-5 w-full max-w-[24rem] md:mt-0 md:max-w-[31rem]">
+        <slot name="artwork" />
+      </div>
+    )}
   </div>
 </section>
+<style>
+  .companion-art {
+    background: radial-gradient(ellipse at 58% 50%, #d8c6f9aa, transparent 68%);
+    mask-image: linear-gradient(to bottom, #000 74%, transparent);
+  }
+</style>
