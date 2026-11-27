@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 
-const downloadUrl = 'https://github.com/choi87/jw-corporate/releases/download/talkmate-v2.0.50/talkmate-android-v2.0.50-auto009-debug.apk';
+const downloadUrl = 'https://github.com/choi87/jw-corporate/releases/tag/talkmate-v2.0.55';
 const chatExamples = [
   [
     "상담은 몇 시까지 가능한가요?",
@@ -142,7 +142,7 @@ const features = [
       <section id="download" class="scroll-mt-6 bg-[#251441] px-6 py-17 text-center">
         <h2 class="text-3xl font-black sm:text-4xl">톡메이트 다운로드</h2>
         {downloadUrl ? (
-          <a href={downloadUrl} class="mt-6 inline-flex rounded-xl bg-violet-300 px-7 py-3.5 font-extrabold text-[#26124e] hover:bg-white">설치 파일 다운로드</a>
+          <a href={downloadUrl} class="mt-6 inline-flex rounded-xl bg-violet-300 px-7 py-3.5 font-extrabold text-[#26124e] hover:bg-white">v2.0.55 다운로드</a>
         ) : (
           <button type="button" disabled class="mt-6 rounded-xl bg-violet-300/25 px-7 py-3.5 font-extrabold text-violet-100">다운로드 준비 중</button>
         )}
